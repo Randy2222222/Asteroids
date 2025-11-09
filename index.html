@@ -17,14 +17,14 @@ if (!location.pathname.endsWith('/')) {
     user-select: none;
   }
 
-  /* Prevent long-press text selection on buttons */
-  button {
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
+  /* Prevent long-press text selection and copy popup on buttons */
+  body, canvas, button {
+    -webkit-touch-callout: none; /* Disable copy/paste popup */
+    -webkit-user-select: none;   /* Disable text selection */
+    touch-action: none;          /* Prevent double-tap zoom and scroll */
   }
 
   canvas {
-    touch-action: none;
     -webkit-user-select: none;
   }
 </style>
@@ -79,7 +79,7 @@ if (!location.pathname.endsWith('/')) {
 
   
 
-    <script src="game.js?v=12"></script>
+    <script src="game.js?v=13></script>
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
