@@ -53,23 +53,28 @@ sndThrust.loop = true;
       this.lives = 3;
     }
     update() {
-      if (this.thrusting) {
-  this.thrust.x += 0.1 * Math.cos(this.a);
-  this.thrust.y += 0.1 * Math.sin(this.a);
-  thrustGainNode.gain.linearRampToValueAtTime(0.8, audioCtx.currentTime + 0.1); // fade in
-  if (sndThrust.paused) sndThrust.play();
-} else {
-  thrustGainNode.gain.linearRampToValueAtTime(0.0, audioCtx.currentTime + 0.3); // fade out
+  if (this.thrusting) {
+    this.thrust.x += 0.1 * Math.cos(this.a);
+    this.thrust.y += 0.1 * Math.sin(this.a);
+
+    // 🎧 Smooth fade in of thrust sound
+    thrustGainNode.gain.linearRampToValueAtTime(0.8, audioCtx.currentTime + 0.1);
+
+    if (sndThrust.paused) sndThrust.play();
+  } else {
+    // 🎧 Smooth fade out of thrust sound
+    thrustGainNode.gain.linearRampToValueAtTime(0.0, audioCtx.currentTime + 0.3);
+  }
+
+  // Physics & wrapping
+  this.thrust.x *= 0.99;
+  this.thrust.y *= 0.99;
+  this.x += this.thrust.x;
+  this.y += this.thrust.y;
+  this.a += this.rot;
+  this.x = (this.x + w) % w;
+  this.y = (this.y + h) % h;
 }
-      }
-      this.thrust.x *= 0.99;
-      this.thrust.y *= 0.99;
-      this.x += this.thrust.x;
-      this.y += this.thrust.y;
-      this.a += this.rot;
-      this.x = (this.x + w) % w;
-      this.y = (this.y + h) % h;
-    }
     draw() {
       ctx.strokeStyle = "white";
       ctx.lineWidth = 2;
