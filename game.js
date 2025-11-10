@@ -3,10 +3,7 @@ window.onload = function() {
   const ctx = canvas.getContext("2d");
   let w, h;
 
-  // 🔊 Sound setup
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-  // Create reusable AudioBuffers
   const sounds = {};
   const soundFiles = {
     thrust: "thrust.mp3",
@@ -14,12 +11,18 @@ window.onload = function() {
     explode: "explode.mp3"
   };
 
-  // Load all sounds as buffers (low latency)
+  let soundsLoaded = 0;
+  const totalSounds = Object.keys(soundFiles).length;
+
   for (let key in soundFiles) {
     fetch(soundFiles[key])
       .then(res => res.arrayBuffer())
       .then(data => audioCtx.decodeAudioData(data))
-      .then(buffer => sounds[key] = buffer);
+      .then(buffer => {
+        sounds[key] = buffer;
+        soundsLoaded++;
+      })
+      .catch(err => console.error("Sound load error:", err));
   }
 
   function playSound(name, volume = 1.0, loop = false) {
@@ -34,15 +37,6 @@ window.onload = function() {
     return { src, gain };
   }
 
-  // Disable pinch/double-tap zoom on iPad
-  document.addEventListener('touchstart', e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
-  let lastTouchEnd = 0;
-  document.addEventListener('touchend', e => {
-    const now = Date.now();
-    if (now - lastTouchEnd <= 300) e.preventDefault();
-    lastTouchEnd = now;
-  }, false);
-
   function resize() {
     w = canvas.width = window.innerWidth;
     h = canvas.height = window.innerHeight;
@@ -50,7 +44,6 @@ window.onload = function() {
   window.addEventListener("resize", resize);
   resize();
 
-  // 🚀 Ship
   class Ship {
     constructor() {
       this.x = w / 2;
@@ -67,8 +60,6 @@ window.onload = function() {
       if (this.thrusting) {
         this.thrust.x += 0.1 * Math.cos(this.a);
         this.thrust.y += 0.1 * Math.sin(this.a);
-
-        // Smooth continuous thrust sound
         if (!this.thrustSound) {
           this.thrustSound = playSound("thrust", 2.0, true);
         }
@@ -77,11 +68,12 @@ window.onload = function() {
         this.thrustSound = null;
       }
 
-      this.thrust.x *= 0.99;
-      this.thrust.y *= 0.99;
       this.x += this.thrust.x;
       this.y += this.thrust.y;
       this.a += this.rot;
+      this.thrust.x *= 0.99;
+      this.thrust.y *= 0.99;
+
       this.x = (this.x + w) % w;
       this.y = (this.y + h) % h;
     }
@@ -97,7 +89,6 @@ window.onload = function() {
     }
   }
 
-  // 🔫 Bullet
   class Bullet {
     constructor(x, y, a) {
       this.x = x;
@@ -117,7 +108,6 @@ window.onload = function() {
     }
   }
 
-  // ☄️ Asteroid
   class Asteroid {
     constructor(x, y, r) {
       this.x = x;
@@ -145,33 +135,51 @@ window.onload = function() {
     }
   }
 
-  let ship = new Ship();
-  let bullets = [];
-  let asteroids = [];
-  let score = 0;
+  let ship, bullets, asteroids, score, gameOver, animFrame, started = false;
 
-  function resetAsteroids() {
+  function resetGame() {
+    ship = new Ship();
+    bullets = [];
     asteroids = [];
+    score = 0;
+    gameOver = false;
     for (let i = 0; i < 5; i++) {
       asteroids.push(new Asteroid(Math.random() * w, Math.random() * h, 40));
     }
   }
-  resetAsteroids();
 
   function update() {
+    if (!started) {
+      ctx.fillStyle = "white";
+      ctx.font = "36px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("TAP TO START", w / 2, h / 2);
+      requestAnimationFrame(update);
+      return;
+    }
+
+    if (soundsLoaded < totalSounds) {
+      ctx.fillStyle = "white";
+      ctx.font = "24px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("Loading sounds...", w / 2, h / 2);
+      requestAnimationFrame(update);
+      return;
+    }
+
     ship.update();
     bullets.forEach(b => b.update());
     asteroids.forEach(a => a.update());
 
-    // 💥 Bullet vs asteroid
-    for (let b of bullets) {
-      for (let i = asteroids.length - 1; i >= 0; i--) {
-        const a = asteroids[i];
-        const dx = b.x - a.x, dy = b.y - a.y;
-        if (Math.sqrt(dx * dx + dy * dy) < a.r) {
+    // Bullet vs Asteroid
+    for (let b of [...bullets]) {
+      for (let a of [...asteroids]) {
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        if (Math.hypot(dx, dy) < a.r) {
           playSound("explode", 3.0);
           bullets.splice(bullets.indexOf(b), 1);
-          asteroids.splice(i, 1);
+          asteroids.splice(asteroids.indexOf(a), 1);
           score += 100;
           if (a.r > 20) {
             asteroids.push(new Asteroid(a.x, a.y, a.r / 2));
@@ -182,37 +190,33 @@ window.onload = function() {
       }
     }
 
-    // 🚀 Ship vs asteroid
-    for (let i = asteroids.length - 1; i >= 0; i--) {
-      const a = asteroids[i];
-      const dx = ship.x - a.x, dy = ship.y - a.y;
-      if (Math.sqrt(dx * dx + dy * dy) < a.r + ship.r) {
+    // Ship vs Asteroid
+    for (let a of asteroids) {
+      const dx = ship.x - a.x;
+      const dy = ship.y - a.y;
+      if (Math.hypot(dx, dy) < a.r + ship.r) {
         ship.lives--;
         playSound("explode", 3.0);
         ship.x = w / 2;
         ship.y = h / 2;
         ship.thrust = { x: 0, y: 0 };
+        if (ship.thrustSound) {
+          ship.thrustSound.src.stop();
+          ship.thrustSound = null;
+        }
 
         if (ship.lives <= 0) {
-          ctx.fillStyle = "red";
-          ctx.font = "40px monospace";
-          ctx.textAlign = "center";
-          ctx.fillText("GAME OVER", w / 2, h / 2);
-          cancelAnimationFrame(update);
-          setTimeout(() => {
-            ship = new Ship();
-            score = 0;
-            resetAsteroids();
-            requestAnimationFrame(update);
-          }, 2000);
-          return;
+          gameOver = true;
+          break;
         }
-        break;
       }
     }
 
-    if (asteroids.length === 0) resetAsteroids();
-    bullets = bullets.filter(b => b.life > 0);
+    if (asteroids.length === 0) {
+      for (let i = 0; i < 5; i++) {
+        asteroids.push(new Asteroid(Math.random() * w, Math.random() * h, 40));
+      }
+    }
 
     ctx.clearRect(0, 0, w, h);
     ship.draw();
@@ -222,12 +226,33 @@ window.onload = function() {
     ctx.font = "20px monospace";
     ctx.fillText("Score: " + score, 20, 30);
     ctx.fillText("Lives: " + ship.lives, 20, 60);
-    requestAnimationFrame(update);
+
+    if (gameOver) {
+      ctx.fillStyle = "red";
+      ctx.font = "40px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("GAME OVER", w / 2, h / 2);
+      ctx.font = "24px monospace";
+      ctx.fillStyle = "white";
+      ctx.fillText("TAP TO RESTART", w / 2, h / 2 + 60);
+    }
+
+    animFrame = requestAnimationFrame(update);
   }
 
   update();
 
-  // 🎮 Touch controls
+  // 👆 Tap-to-start handler
+  canvas.addEventListener("touchstart", () => {
+    if (!started || gameOver) {
+      audioCtx.resume();
+      resetGame();
+      started = true;
+      gameOver = false;
+    }
+  });
+
+  // Touch controls
   const thrustBtn = document.getElementById("thrust");
   const fireBtn = document.getElementById("fire");
   const leftBtn = document.getElementById("left");
@@ -237,9 +262,26 @@ window.onload = function() {
     ship.thrusting = true;
     audioCtx.resume();
   };
-  thrustBtn.ontouchend = () => { ship.thrusting = false; };
+  thrustBtn.ontouchend = () => ship.thrusting = false;
 
   let fireInterval = null;
   fireBtn.ontouchstart = () => {
     if (!fireInterval) {
-      playSound
+      bullets.push(new Bullet(ship.x, ship.y, ship.a));
+      playSound("fire", 0.1);
+      fireInterval = setInterval(() => {
+        bullets.push(new Bullet(ship.x, ship.y, ship.a));
+        playSound("fire", 0.1);
+      }, 200);
+    }
+  };
+  fireBtn.ontouchend = () => {
+    clearInterval(fireInterval);
+    fireInterval = null;
+  };
+
+  leftBtn.ontouchstart = () => ship.rot = -0.1;
+  leftBtn.ontouchend = () => ship.rot = 0;
+  rightBtn.ontouchstart = () => ship.rot = 0.1;
+  rightBtn.ontouchend = () => ship.rot = 0;
+};
