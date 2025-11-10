@@ -5,28 +5,24 @@ window.onload = function() {
 
   // Sound effects
   const sndThrust = new Audio("thrust.mp3");
-  sndThrust.loop = true; // keep looping while thrusting
   const sndFire = new Audio("fire.mp3");
   const sndExplode = new Audio("explode.mp3");
 
+  sndThrust.loop = true;
   [sndThrust, sndFire, sndExplode].forEach(s => {
     s.preload = "auto";
     s.load();
   });
 
-  // Disable pinch and double-tap zoom in Safari
+  // Disable pinch and double-tap zoom (iPad Safari fix)
   document.addEventListener('touchstart', function(event) {
-    if (event.touches.length > 1) {
-      event.preventDefault();
-    }
+    if (event.touches.length > 1) event.preventDefault();
   }, { passive: false });
 
   let lastTouchEnd = 0;
   document.addEventListener('touchend', function(event) {
     const now = (new Date()).getTime();
-    if (now - lastTouchEnd <= 300) {
-      event.preventDefault();
-    }
+    if (now - lastTouchEnd <= 300) event.preventDefault();
     lastTouchEnd = now;
   }, false);
 
@@ -55,8 +51,8 @@ window.onload = function() {
         if (sndThrust.paused) sndThrust.play();
       } else {
         sndThrust.pause();
+        sndThrust.currentTime = 0;
       }
-
       this.thrust.x *= 0.99;
       this.thrust.y *= 0.99;
       this.x += this.thrust.x;
@@ -109,9 +105,7 @@ window.onload = function() {
 
   class Asteroid {
     constructor(x, y, r) {
-      this.x = x;
-      this.y = y;
-      this.r = r;
+      this.x = x; this.y = y; this.r = r;
       const angle = Math.random() * Math.PI * 2;
       const speed = Math.random() * 2 + 0.5;
       this.dx = Math.cos(angle) * speed;
@@ -124,10 +118,10 @@ window.onload = function() {
     draw() {
       ctx.strokeStyle = "white";
       ctx.beginPath();
-      for (let i = 0; i < 8; i++) {
-        const ang = (Math.PI * 2 / 8) * i;
-        const rad = this.r + Math.random() * 5 - 2;
-        ctx.lineTo(this.x + rad * Math.cos(ang), this.y + rad * Math.sin(ang));
+      for (let i=0; i<8; i++) {
+        const ang = (Math.PI*2/8)*i;
+        const rad = this.r + Math.random()*5-2;
+        ctx.lineTo(this.x + rad*Math.cos(ang), this.y + rad*Math.sin(ang));
       }
       ctx.closePath();
       ctx.stroke();
@@ -141,8 +135,8 @@ window.onload = function() {
 
   function resetAsteroids() {
     asteroids = [];
-    for (let i = 0; i < 5; i++) {
-      asteroids.push(new Asteroid(Math.random() * w, Math.random() * h, 40));
+    for (let i=0; i<5; i++) {
+      asteroids.push(new Asteroid(Math.random()*w, Math.random()*h, 40));
     }
   }
   resetAsteroids();
@@ -152,36 +146,34 @@ window.onload = function() {
     bullets.forEach(b => b.update());
     asteroids.forEach(a => a.update());
 
-    // Bullet vs asteroid collisions
+    // Bullet vs asteroid
     for (let b of bullets) {
       for (let i = asteroids.length - 1; i >= 0; i--) {
         let a = asteroids[i];
         const dx = b.x - a.x, dy = b.y - a.y;
-        if (Math.sqrt(dx * dx + dy * dy) < a.r) {
-          sndExplode.currentTime = 0;
-          sndExplode.play();
-          bullets.splice(bullets.indexOf(b), 1);
-          asteroids.splice(i, 1);
+        if (Math.sqrt(dx*dx+dy*dy) < a.r) {
+          const boom = sndExplode.cloneNode();
+          boom.play();
+          bullets.splice(bullets.indexOf(b),1);
+          asteroids.splice(i,1);
           score += 100;
-
           if (a.r > 20) {
-            asteroids.push(new Asteroid(a.x, a.y, a.r / 2));
-            asteroids.push(new Asteroid(a.x, a.y, a.r / 2));
+            asteroids.push(new Asteroid(a.x, a.y, a.r/2));
+            asteroids.push(new Asteroid(a.x, a.y, a.r/2));
           }
           break;
         }
       }
     }
 
-    // Ship vs asteroid collisions
+    // Ship vs asteroid
     for (let i = asteroids.length - 1; i >= 0; i--) {
       let a = asteroids[i];
       const dx = ship.x - a.x, dy = ship.y - a.y;
-      if (Math.sqrt(dx * dx + dy * dy) < a.r + ship.r) {
+      if (Math.sqrt(dx*dx+dy*dy) < a.r + ship.r) {
         ship.lives--;
-        sndExplode.currentTime = 0;
-        sndExplode.play();
-
+        const boom = sndExplode.cloneNode();
+        boom.play();
         if (ship.lives <= 0) {
           ctx.fillStyle = "red";
           ctx.font = "40px monospace";
@@ -193,16 +185,15 @@ window.onload = function() {
             score = 0;
             ship.x = w / 2;
             ship.y = h / 2;
-            ship.thrust = { x: 0, y: 0 };
+            ship.thrust = {x:0, y:0};
             resetAsteroids();
             requestAnimationFrame(update);
           }, 2000);
           return;
         }
-
         ship.x = w / 2;
         ship.y = h / 2;
-        ship.thrust = { x: 0, y: 0 };
+        ship.thrust = {x:0, y:0};
         break;
       }
     }
@@ -216,8 +207,8 @@ window.onload = function() {
     asteroids.forEach(a => a.draw());
     ctx.fillStyle = "white";
     ctx.font = "20px monospace";
-    ctx.fillText("Score: " + score, 20, 30);
-    ctx.fillText("Lives: " + ship.lives, 20, 60);
+    ctx.fillText("Score: "+score, 20, 30);
+    ctx.fillText("Lives: "+ship.lives, 20, 60);
     requestAnimationFrame(update);
   }
 
@@ -229,13 +220,33 @@ window.onload = function() {
   const leftBtn = document.getElementById("left");
   const rightBtn = document.getElementById("right");
 
-  thrustBtn.ontouchstart = () => { ship.thrusting = true; sndThrust.play(); };
-  thrustBtn.ontouchend = () => { ship.thrusting = false; sndThrust.pause(); };
+  thrustBtn.ontouchstart = () => {
+    ship.thrusting = true;
+    sndThrust.play();
+  };
+  thrustBtn.ontouchend = () => {
+    ship.thrusting = false;
+    sndThrust.pause();
+    sndThrust.currentTime = 0;
+  };
 
+  // Continuous firing while holding
+  let fireInterval = null;
   fireBtn.ontouchstart = () => {
-    bullets.push(new Bullet(ship.x, ship.y, ship.a));
-    sndFire.currentTime = 0;
-    sndFire.play();
+    if (!fireInterval) {
+      const fireSound = sndFire.cloneNode();
+      fireSound.play();
+      bullets.push(new Bullet(ship.x, ship.y, ship.a));
+      fireInterval = setInterval(() => {
+        const fireSound = sndFire.cloneNode();
+        fireSound.play();
+        bullets.push(new Bullet(ship.x, ship.y, ship.a));
+      }, 200);
+    }
+  };
+  fireBtn.ontouchend = () => {
+    clearInterval(fireInterval);
+    fireInterval = null;
   };
 
   leftBtn.ontouchstart = () => ship.rot = -0.1;
