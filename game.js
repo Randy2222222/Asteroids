@@ -253,6 +253,10 @@ thrustBtn.ontouchend = () => {
     if (!fireInterval) {
       const fireSound = sndFire.cloneNode();
       fireSound.play();
+      const fireSrc = audioCtx.createMediaElementSource(fireSound);
+const fireGain = audioCtx.createGain();
+fireGain.gain.value = 0.6; // 🔉 adjust this number for volume (1.0 = normal)
+fireSrc.connect(fireGain).connect(audioCtx.destination);
       bullets.push(new Bullet(ship.x, ship.y, ship.a));
       fireInterval = setInterval(() => {
         const fireSound = sndFire.cloneNode();
