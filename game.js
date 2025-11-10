@@ -58,7 +58,7 @@ sndThrust.loop = true;
     this.thrust.y += 0.1 * Math.sin(this.a);
 
     // 🎧 Smooth fade in of thrust sound
-    thrustGainNode.gain.linearRampToValueAtTime(0.8, audioCtx.currentTime + 0.1);
+    thrustGainNode.gain.linearRampToValueAtTime(2.0, audioCtx.currentTime + 0.1);
 
     if (sndThrust.paused) sndThrust.play();
   } else {
