@@ -1,38 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  
   <meta charset="UTF-8" />
- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <style>
-  /* Prevent Safari pinch/double-tap zoom */
-  html, body {
-    touch-action: none;
-    -ms-touch-action: none;
-    overscroll-behavior: contain;
-    user-select: none;
-  }
-
-  /* Prevent long-press text selection and copy popup on buttons */
-  body, canvas, button {
-    -webkit-touch-callout: none; /* Disable copy/paste popup */
-    -webkit-user-select: none;   /* Disable text selection */
-    touch-action: none;          /* Prevent double-tap zoom and scroll */
-  }
-
-  canvas {
-    -webkit-user-select: none;
-  }
-</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Asteroids Retro</title>
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#000000" />
+
   <style>
     html, body {
       margin: 0;
       background: black;
       overflow: hidden;
       touch-action: none;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
     }
     canvas {
       display: block;
@@ -55,7 +35,6 @@
       background: rgba(255, 255, 255, 0.1);
       border: 2px solid rgba(255,255,255,0.3);
       pointer-events: auto;
-      touch-action: none;
     }
     #thrust { left: 30px; bottom: 40px; }
     #fire { left: 160px; bottom: 40px; }
@@ -76,17 +55,20 @@
 
   
 
-    <script src="./game.js?v=999"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
-  </script>
-</body>
-</html><!--
+    <script src="./game.js?v=1001"></script>
 <script>
+  // Completely remove old service workers and caches
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
+    navigator.serviceWorker.getRegistrations().then(regs => {
+      for (let reg of regs) {
+        reg.unregister();
+      }
+    });
+    if (window.caches) {
+      caches.keys().then(keys => keys.forEach(key => caches.delete(key)));
+    }
   }
 </script>
--->
+</body>
+</html><!--
+
