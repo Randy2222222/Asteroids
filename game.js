@@ -189,7 +189,7 @@ sndThrust.loop = true;
         const boom = sndExplode.cloneNode();
 const src = audioCtx.createMediaElementSource(boom);
 const gain = audioCtx.createGain();
-gain.gain.value = 2.0; // 💥 Boost volume — 1.0 = normal, 1.8 = ~80% louder
+gain.gain.value = 3.0; // 💥 Boost volume — 1.0 = normal, 1.8 = ~80% louder
 src.connect(gain).connect(audioCtx.destination);
 boom.play();
         if (ship.lives <= 0) {
@@ -255,7 +255,7 @@ thrustBtn.ontouchend = () => {
       fireSound.play();
       const fireSrc = audioCtx.createMediaElementSource(fireSound);
 const fireGain = audioCtx.createGain();
-fireGain.gain.value = 0.3; // 🔉 adjust this number for volume (1.0 = normal)
+fireGain.gain.value = 0.1; // 🔉 adjust this number for volume (1.0 = normal)
 fireSrc.connect(fireGain).connect(audioCtx.destination);
       bullets.push(new Bullet(ship.x, ship.y, ship.a));
       fireInterval = setInterval(() => {
