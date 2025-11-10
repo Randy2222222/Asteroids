@@ -168,9 +168,12 @@ const sndExplode = new Audio("explode.mp3");
         let a = asteroids[i];
         const dx = b.x - a.x, dy = b.y - a.y;
         if (Math.sqrt(dx*dx+dy*dy) < a.r) {
-          bullets.splice(bullets.indexOf(b),1);
-          asteroids.splice(i,1);
-          score += 100;
+  sndExplode.currentTime = 0;
+  sndExplode.play();
+
+  bullets.splice(bullets.indexOf(b),1);
+  asteroids.splice(i,1);
+  score += 100;
           if (a.r > 20) {
             asteroids.push(new Asteroid(a.x, a.y, a.r/2));
             asteroids.push(new Asteroid(a.x, a.y, a.r/2));
