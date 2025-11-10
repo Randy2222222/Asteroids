@@ -154,6 +154,24 @@ window.onload = function() {
       }
     }
 
+
+      // Ship vs asteroid collision
+  for (let i = asteroids.length - 1; i >= 0; i--) {
+    let a = asteroids[i];
+    const dx = ship.x - a.x, dy = ship.y - a.y;
+    if (Math.sqrt(dx * dx + dy * dy) < a.r + ship.r) {
+      ship.lives--;
+      if (ship.lives <= 0) {
+        alert("Game Over!");
+        score = 0;
+        ship.lives = 3;
+      }
+      ship.x = w / 2;
+      ship.y = h / 2;
+      ship.thrust = { x: 0, y: 0 };
+      break;
+    }
+  }
     if (asteroids.length === 0) resetAsteroids();
     bullets = bullets.filter(b => b.life > 0);
 
