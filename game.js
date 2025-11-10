@@ -54,12 +54,13 @@ sndThrust.loop = true;
     }
     update() {
       if (this.thrusting) {
-        this.thrust.x += 0.1 * Math.cos(this.a);
-        this.thrust.y += 0.1 * Math.sin(this.a);
-        if (sndThrust.paused) sndThrust.play();
-      } else {
-        sndThrust.pause();
-        sndThrust.currentTime = 0;
+  this.thrust.x += 0.1 * Math.cos(this.a);
+  this.thrust.y += 0.1 * Math.sin(this.a);
+  thrustGainNode.gain.linearRampToValueAtTime(0.8, audioCtx.currentTime + 0.1); // fade in
+  if (sndThrust.paused) sndThrust.play();
+} else {
+  thrustGainNode.gain.linearRampToValueAtTime(0.0, audioCtx.currentTime + 0.3); // fade out
+}
       }
       this.thrust.x *= 0.99;
       this.thrust.y *= 0.99;
