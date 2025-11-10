@@ -66,35 +66,23 @@
     <div id="right" class="btn"></div>
   </div>
 
-  <script src=".
-
-
-    <script>
-  // clear service workers...
-</script>
-
-
-    
-
+    <script src="game.js?v=1005"></script>
   <script>
-    // 🔧 Disable pinch-zoom, double-tap zoom, and scroll bounce
-    document.addEventListener('gesturestart', e => e.preventDefault());
-    document.addEventListener('gesturechange', e => e.preventDefault());
-    document.addEventListener('gestureend', e => e.preventDefault());
-    document.addEventListener('dblclick', e => e.preventDefault());
-    document.addEventListener('touchmove', e => {
-      if (e.scale !== 1) e.preventDefault();
-    }, { passive: false });
-
-    // 🧹 Remove cached service workers & storage (helps ensure updates load)
+    // Unregister any old service workers and clear caches so the latest files load
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(regs => {
-        for (let reg of regs) reg.unregister();
+        for (const reg of regs) reg.unregister();
       });
     }
     if (window.caches) {
       caches.keys().then(keys => keys.forEach(key => caches.delete(key)));
     }
+
+    // Extra pinch/double-tap mitigation for iPad tabs (may not be 100% on iOS 26)
+    ['gesturestart','gesturechange','gestureend'].forEach(evt =>
+      document.addEventListener(evt, e => e.preventDefault(), {passive:false})
+    );
+    document.addEventListener('touchmove', e => { if (e.scale !== 1) e.preventDefault(); }, {passive:false});
   </script>
 </body>
 </html>
