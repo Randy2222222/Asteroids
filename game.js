@@ -55,9 +55,19 @@ const sndExplode = new Audio("explode.mp3");
     }
     update() {
       if (this.thrusting) {
-        this.thrust.x += 0.1 * Math.cos(this.a);
-        this.thrust.y += 0.1 * Math.sin(this.a);
-      } else {
+  this.thrust.x += 0.1 * Math.cos(this.a);
+  this.thrust.y += 0.1 * Math.sin(this.a);
+
+  // Play thrust sound while thrusting
+  if (sndThrust.paused) {
+    sndThrust.currentTime = 0;
+    sndThrust.play();
+  }
+} else {
+  // Stop thrust sound when not thrusting
+  sndThrust.pause();
+  sndThrust.currentTime = 0;
+}
         this.thrust.x *= 0.99;
         this.thrust.y *= 0.99;
       }
@@ -232,6 +242,12 @@ document.getElementById("thrust").ontouchend = () => {
   sndThrust.currentTime = 0;
 };
   document.getElementById("fire").ontouchstart = () => {
+  bullets.push(new Bullet(ship.x, ship.y, ship.a));
+
+  // Play fire sound
+  sndFire.currentTime = 0;
+  sndFire.play();
+};
   sndFire.currentTime = 0;
   sndFire.play();
   bullets.push(new Bullet(ship.x, ship.y, ship.a));
