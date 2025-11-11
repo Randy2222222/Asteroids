@@ -303,6 +303,7 @@ window.onload = () => {
           }
         }
       }
+    }
       draw() {
         ctx.save();
         ctx.translate(this.x, this.y);
