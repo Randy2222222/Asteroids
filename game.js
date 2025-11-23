@@ -180,7 +180,7 @@ window.onload = () => {
         this.vx = 0; this.vy = 0;
         this.thrusting = false;
         this.lives = 3;
-        // this.invuln = 0; // keep timing for gameplay but we won't draw a ring
+        this.invuln = 0; // keep timing for gameplay but we won't draw a ring
       }
       update() {
         this.a += this.rot;
