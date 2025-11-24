@@ -341,20 +341,34 @@ window.onload = () => {
     let particles = [];
     let saucers = [];
     let saucerBullets = [];
-    let score = 0;
+    let score = let wave = 1; // Add line to increse waves of asteroids
     let started = false;
     let gameOver = false;
     let lastTime = performance.now();
     let saucerNextSpawn = performance.now() + randRange(SAUCER_SPAWN_MIN, SAUCER_SPAWN_MAX);
 
-    // initial asteroids
+    // initial asteroids comment out ⬇️
+    //function resetAsteroids() {
+      //asteroids = [];
+      //const initial = 5;
+      //for (let i = 0; i < initial; i++) {
+        //asteroids.push(new Asteroid(randRange(0, w), randRange(0, h), randRange(26, 
+  //}
+  //  }
+    // Reset to mutiply asteroids: Comment out old code ⬆️ 
     function resetAsteroids() {
-      asteroids = [];
-      const initial = 5;
-      for (let i = 0; i < initial; i++) {
-        asteroids.push(new Asteroid(randRange(0, w), randRange(0, h), randRange(26, 44)));
-      }
-    }
+  asteroids = [];
+
+  const initial = 5 + (wave - 1);  // wave 1 = 5, wave 2 = 6, wave 3 = 7...
+
+  for (let i = 0; i < initial; i++) {
+    asteroids.push(new Asteroid(
+      randRange(0, w),
+      randRange(0, h),
+      randRange(26, 44)
+    ));
+  }
+}
     resetAsteroids();
 
     // -------------------------
@@ -555,11 +569,22 @@ window.onload = () => {
       ctx.fillText("Lives: " + ship.lives, 12, 44);
 
       // If all asteroids cleared, spawn a fresh wave after a short delay
-      if (asteroids.length === 0) {
-        setTimeout(() => {
-          if (asteroids.length === 0) resetAsteroids();
-        }, 600);
-      }
+     // if (asteroids.length === 0) {
+        //setTimeout(() => {
+          //if (asteroids.length === 0) resetAsteroids();
+       // }, 600);
+     // }
+      // Add nee code for wave of asteroids
+      // If all asteroids are gone, start a new wave
+if (asteroids.length === 0) {
+  setTimeout(() => {
+    if (asteroids.length === 0) {
+      wave++;           // increase wave number
+      resetAsteroids(); // spawn larger asteroid set
+    }
+  }, 600);
+}
+      // end new code for wave of asteroids
 
       // Game over overlay handling
       if (gameOver) {
