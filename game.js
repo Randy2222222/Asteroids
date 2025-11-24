@@ -359,7 +359,7 @@ let wave = 1;
   //}
   //  }
     // Reset to mutiply asteroids: Comment out old code ⬆️ 
-    function resetAsteroids() {g
+    function resetAsteroids() {
   asteroids = [];
 
   const initial = 5 + (wave - 1);  // wave 1 = 5, wave 2 = 6, wave 3 = 7...
