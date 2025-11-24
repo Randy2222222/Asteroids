@@ -530,13 +530,13 @@ let wave = 1;
       }
 
       // Ship <-> asteroids
-     // if (ship.invuln <= 0) { ⬅️ comment out for asteroid crash
+      if (ship.invuln <= 0) { 
         for (let i = asteroids.length - 1; i >= 0; i--) {
           if (dist(ship.x, ship.y, asteroids[i].x, asteroids[i].y) < ship.r + asteroids[i].r) {
             explodeAt(ship.x, ship.y, 20);
             ship.lives--;
             ship.x = w / 2; ship.y = h / 2; ship.vx = 0; ship.vy = 0;
-           // ship.invuln = 90;
+            ship.invuln = 90;
             if (buffers.explode) playBuffer("explode", V.explodeGain, false);
             if (ship.lives <= 0) gameOver = true;
             break;
