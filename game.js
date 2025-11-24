@@ -521,7 +521,7 @@ let wave = 1;
             explodeAt(ship.x, ship.y, 16);
             ship.lives--;
             ship.x = w / 2; ship.y = h / 2; ship.vx = 0; ship.vy = 0;
-            ship.invuln = 90; // kept for gameplay fairness
+            ship.invuln = 240; // kept for gameplay fairness
             saucerBullets.splice(i, 1);
             if (ship.lives <= 0) gameOver = true;
             break;
