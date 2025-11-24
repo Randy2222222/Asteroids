@@ -341,7 +341,10 @@ window.onload = () => {
     let particles = [];
     let saucers = [];
     let saucerBullets = [];
-    let score = let wave = 1; // Add line to increse waves of asteroids
+     // ⬇️ Add lines to increse waves of asteroids
+    let score = 0;
+let wave = 1;
+    // ⬆️ End oof code added for crashed asteroids
     let started = false;
     let gameOver = false;
     let lastTime = performance.now();
@@ -356,7 +359,7 @@ window.onload = () => {
   //}
   //  }
     // Reset to mutiply asteroids: Comment out old code ⬆️ 
-    function resetAsteroids() {
+    function resetAsteroids() {g
   asteroids = [];
 
   const initial = 5 + (wave - 1);  // wave 1 = 5, wave 2 = 6, wave 3 = 7...
@@ -423,7 +426,7 @@ window.onload = () => {
       const bx = ship.x + Math.cos(ship.a) * ship.r;
       const by = ship.y + Math.sin(ship.a) * ship.r;
       bullets.push(new Bullet(bx, by, ship.a));
-   ,   if (buffers.fire) playBuffer("fire", V.fireGain, false);
+     if (buffers.fire) playBuffer("fire", V.fireGain, false);
     }
 
     function explodeAt(x, y, amount = 10) {
