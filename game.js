@@ -423,7 +423,7 @@ window.onload = () => {
       const bx = ship.x + Math.cos(ship.a) * ship.r;
       const by = ship.y + Math.sin(ship.a) * ship.r;
       bullets.push(new Bullet(bx, by, ship.a));
-      if (buffers.fire) playBuffer("fire", V.fireGain, false);
+   ,   if (buffers.fire) playBuffer("fire", V.fireGain, false);
     }
 
     function explodeAt(x, y, amount = 10) {
@@ -511,14 +511,14 @@ window.onload = () => {
       }
 
       // Saucer bullets -> ship (ship.invuln still exists but no shield shown)
-      //if (ship.invuln <= 0) { ➡️ Comment out for asteroid crash
+      if (ship.invuln <= 0) { 
         for (let i = saucerBullets.length - 1; i >= 0; i--) {
           const sb = saucerBullets[i];
           if (dist(sb.x, sb.y, ship.x, ship.y) < ship.r) {
             explodeAt(ship.x, ship.y, 16);
             ship.lives--;
             ship.x = w / 2; ship.y = h / 2; ship.vx = 0; ship.vy = 0;
-           // ship.invuln = 90; // kept for gameplay fairness ➡️ Took out for asteroid crash 
+            ship.invuln = 90; // kept for gameplay fairness
             saucerBullets.splice(i, 1);
             if (ship.lives <= 0) gameOver = true;
             break;
@@ -527,19 +527,19 @@ window.onload = () => {
       }
 
       // Ship <-> asteroids
-      if (ship.invuln <= 0) {
+     // if (ship.invuln <= 0) { ⬅️ comment out for asteroid crash
         for (let i = asteroids.length - 1; i >= 0; i--) {
           if (dist(ship.x, ship.y, asteroids[i].x, asteroids[i].y) < ship.r + asteroids[i].r) {
             explodeAt(ship.x, ship.y, 20);
             ship.lives--;
             ship.x = w / 2; ship.y = h / 2; ship.vx = 0; ship.vy = 0;
-            ship.invuln = 90;
+           // ship.invuln = 90;
             if (buffers.explode) playBuffer("explode", V.explodeGain, false);
             if (ship.lives <= 0) gameOver = true;
             break;
           }
         }
-      }
+     // } ⬅️ Also had to comment out tag
 
       // Remove expired saucers (their .update stops sound when leaving)
       saucers = saucers.filter(s => s.alive);
