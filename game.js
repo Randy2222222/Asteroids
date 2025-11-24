@@ -511,14 +511,14 @@ window.onload = () => {
       }
 
       // Saucer bullets -> ship (ship.invuln still exists but no shield shown)
-      if (ship.invuln <= 0) {
+      //if (ship.invuln <= 0) { ➡️ Comment out for asteroid crash
         for (let i = saucerBullets.length - 1; i >= 0; i--) {
           const sb = saucerBullets[i];
           if (dist(sb.x, sb.y, ship.x, ship.y) < ship.r) {
             explodeAt(ship.x, ship.y, 16);
             ship.lives--;
             ship.x = w / 2; ship.y = h / 2; ship.vx = 0; ship.vy = 0;
-            ship.invuln = 90; // kept for gameplay fairness
+           // ship.invuln = 90; // kept for gameplay fairness ➡️ Took out for asteroid crash 
             saucerBullets.splice(i, 1);
             if (ship.lives <= 0) gameOver = true;
             break;
