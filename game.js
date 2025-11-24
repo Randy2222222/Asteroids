@@ -542,7 +542,7 @@ let wave = 1;
             break;
           }
         }
-     // } ⬅️ Also had to comment out tag
+      }
 
       // Remove expired saucers (their .update stops sound when leaving)
       saucers = saucers.filter(s => s.alive);
