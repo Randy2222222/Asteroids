@@ -519,20 +519,33 @@ function explodeShip(ship) {
           }
         }
         if (removed) continue;
+        
         // saucers
-        for (let s = saucers.length - 1; s >= 0; s--) {
-           if (dist(b.x, b.y, saucers[s].x, saucers[s].y) < saucers[s].r) {
-            explodeAt(saucers[s].x, saucers[s].y, 16);
-             score += SAUCER_SCORE;
-            bullets.splice(i, 1);
-             stop saucer sound
-            stopActiveSaucerSound();
-            saucers.splice(s, 1);
-            if (buffers.explode) playBuffer("explode", V.explodeGain, false);
-            removed = true;
-         break;
-          }
-        }
+for (let s = saucers.length - 1; s >= 0; s--) {
+  if (dist(b.x, b.y, saucers[s].x, saucers[s].y) < saucers[s].r) {
+
+    // Explosion effect
+    explodeAt(saucers[s].x, saucers[s].y, 16);
+
+    // Score points
+    score += SAUCER_SCORE;
+
+    // Remove bullet
+    bullets.splice(i, 1);
+
+    // STOP SAUCER HUM (looping sound)
+    stopActiveSaucerSound();
+
+    // Remove saucer
+    saucers.splice(s, 1);
+
+    // Play explosion boom
+    if (buffers.explode) playBuffer("explode", V.explodeGain, false);
+
+    removed = true;
+    break;
+  }
+}
       }
 
       // Saucer bullets -> ship (ship.invuln still exists but no shield shown)
