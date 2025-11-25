@@ -540,6 +540,7 @@ function explodeShip(ship) {
         if (removed) continue;
         // saucers
         for (let s = saucers.length - 1; s >= 0; s--) {
+          // Replace next section of code 🔥 n
           if (dist(b.x, b.y, saucers[s].x, saucers[s].y) < saucers[s].r) {
             explodeAt(saucers[s].x, saucers[s].y, 16);
             score += SAUCER_SCORE;
