@@ -347,8 +347,7 @@ if (buffers.saucer) {
     let saucerBullets = [];
      // ⬇️ Add lines to increse waves of asteroids
     let score = 0;
-let wave = 1;
-    // ⬆️ End oof code added for crashed asteroids
+    let wave = 1;
     let started = false;
     let gameOver = false;
     let lastTime = performance.now();
@@ -534,7 +533,7 @@ function explodeShip(ship) {
          break;
           }
         }
-      }
+      
 
       // Saucer bullets -> ship (ship.invuln still exists but no shield shown)
       if (ship.invuln <= 0) { 
