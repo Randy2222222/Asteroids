@@ -1,12 +1,4 @@
 // game.js
-// Fixed build based on your stable version
-// - Tap-to-Start retained
-// - Fullscreen using visualViewport where available (fixes iPad wallpaper gap)
-// - Invulnerability timing kept, but **no visible shield** drawn
-// - Asteroid waves respawn after cleared
-// - Saucer sound stops when saucer destroyed or leaves screen
-// - Thrust fade, fire/explode volumes preserved
-// - Descriptive comments for each area
 
 window.onload = () => {
   (async function init() {
@@ -544,9 +536,9 @@ for (let s = saucers.length - 1; s >= 0; s--) {
 
     removed = true;
     break;
+   }
   }
-}
-      }
+ }
 
       // Saucer bullets -> ship (ship.invuln still exists but no shield shown)
       if (ship.invuln <= 0) { 
