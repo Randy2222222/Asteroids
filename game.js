@@ -433,6 +433,38 @@ let wave = 1;
       for (let i = 0; i < amount; i++) particles.push(new Particle(x, y));
       if (buffers.explode) playBuffer("explode", V.explodeGain, false);
     }
+    // explode shplode ship function
+    // NEW — real ship explosion with breaking debris
+function explodeShip(ship) {
+  const pieces = 12;
+  const angleStep = (Math.PI * 2) / pieces;
+
+  for (let i = 0; i < pieces; i++) {
+    const angle = angleStep * i;
+
+    particles.push({
+      x: ship.x,
+      y: ship.y,
+      vx: Math.cos(angle) * randRange(1.5, 3.2),
+      vy: Math.sin(angle) * randRange(1.5, 3.2),
+      life: randRange(25, 45),
+      size: randRange(2, 4),
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.life--;
+      },
+
+      draw() {
+        ctx.globalAlpha = Math.max(0, this.life / 45);
+        ctx.fillStyle = "white";
+        ctx.fillRect(this.x, this.y, this.size, this.size);
+        ctx.globalAlpha = 1;
+      }
+    });
+  }
+}//end explode ship 
     function maybeSpawnSaucer(now) {
       if (now >= saucerNextSpawn) {
         saucers.push(new Saucer());
