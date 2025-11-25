@@ -280,6 +280,11 @@ window.onload = () => {
         this.r = 18;
         this.fireTimer = randRange(600, 1400);
         this.alive = true;
+        this.sound = null; // <-- add this
+        // start saucer hum
+if (buffers.saucer) {
+  this.sound = playBuffer("saucer", V.saucerGain, true); // loop = true
+}
       }
       update(dt) {
         this.x += this.speed * (dt / (1000 / FRAME_RATE));
