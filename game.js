@@ -292,14 +292,8 @@ if (buffers.saucer) {
         if (this.side > 0 && this.x < -80) this.alive = false;
 
         // ensure sound stops if it leaves
-       // if (!this.alive) stopActiveSaucerSound(); change saucer sound ⬇️
-        if (!this.alive && this.sound) {
-  try { this.sound.src.stop(); } catch(e){}
-  this.sound = null;
-}
-// End saucer sound fix⬆️
-
-        this.fireTimer -= dt;
+       if (!this.alive) stopActiveSaucerSound(); 
+          this.fireTimer -= dt;
         if (this.fireTimer <= 0) {
           this.fireTimer = randRange(600, 1400);
           if (ship) {
@@ -359,21 +353,9 @@ let wave = 1;
     let gameOver = false;
     let lastTime = performance.now();
     let saucerNextSpawn = performance.now() + randRange(SAUCER_SPAWN_MIN, SAUCER_SPAWN_MAX);
-
-    // initial asteroids comment out ⬇️
-    //function resetAsteroids() {
-      //asteroids = [];
-      //const initial = 5;
-      //for (let i = 0; i < initial; i++) {
-        //asteroids.push(new Asteroid(randRange(0, w), randRange(0, h), randRange(26, 
-  //}
-  //  }
-    // Reset to mutiply asteroids: Comment out old code ⬆️ 
     function resetAsteroids() {
   asteroids = [];
-
-  const initial = 5 + (wave - 1);  // wave 1 = 5, wave 2 = 6, wave 3 = 7...
-
+ const initial = 5 + (wave - 1);  // wave 1 = 5, wave 2 = 6, wave 3 = 7...
   for (let i = 0; i < initial; i++) {
     asteroids.push(new Asteroid(
       randRange(0, w),
@@ -443,7 +425,7 @@ let wave = 1;
       for (let i = 0; i < amount; i++) particles.push(new Particle(x, y));
       if (buffers.explode) playBuffer("explode", V.explodeGain, false);
     }
-    // explode shplode ship function
+    // explode ship function
     // NEW — real ship explosion with breaking debris
 function explodeShip(ship) {
   const pieces = 12;
@@ -474,7 +456,7 @@ function explodeShip(ship) {
       }
     });
   }
-}//end explode ship 
+}
     function maybeSpawnSaucer(now) {
       if (now >= saucerNextSpawn) {
         saucers.push(new Saucer());
@@ -540,37 +522,17 @@ function explodeShip(ship) {
         if (removed) continue;
         // saucers
         for (let s = saucers.length - 1; s >= 0; s--) {
-          // Replace next section of code 🔥
-          if (dist(b.x, b.y, saucers[s].x, saucers[s].y) < saucers[s].r) {
-    const dying = saucers[s];
-    if (dying.sound) {
-        try { dying.sound.src.stop(); } catch(e){}
-        dying.sound = null;
-    }
-
-    explodeAt(dying.x, dying.y, 16);
-    score += SAUCER_SCORE;
-
-    bullets.splice(i, 1);
-    saucers.splice(s, 1);
-
-    if (buffers.explode) playBuffer("explode", V.explodeGain, false);
-    removed = true;
-    break;
-} // end new code 🔥 
-          // comment out old cold ⬇️
-       //   if (dist(b.x, b.y, saucers[s].x, saucers[s].y) < saucers[s].r) {
-        //    explodeAt(saucers[s].x, saucers[s].y, 16);
-          //   score += SAUCER_SCORE;
-          //  bullets.splice(i, 1);
-            // stop saucer sound
-         //   stopActiveSaucerSound();
-          //  saucers.splice(s, 1);
-         //   if (buffers.explode) playBuffer("explode", V.explodeGain, false);
-        //    removed = true;
-         //   break;
-        //  }
-          // end commenting out old code ⬆️
+           if (dist(b.x, b.y, saucers[s].x, saucers[s].y) < saucers[s].r) {
+            explodeAt(saucers[s].x, saucers[s].y, 16);
+             score += SAUCER_SCORE;
+            bullets.splice(i, 1);
+             stop saucer sound
+            stopActiveSaucerSound();
+            saucers.splice(s, 1);
+            if (buffers.explode) playBuffer("explode", V.explodeGain, false);
+            removed = true;
+         break;
+          }
         }
       }
 
@@ -579,8 +541,7 @@ function explodeShip(ship) {
         for (let i = saucerBullets.length - 1; i >= 0; i--) {
           const sb = saucerBullets[i];
           if (dist(sb.x, sb.y, ship.x, ship.y) < ship.r) {
-            explodeShip(ship);// replaced from line below,
-            //explodeAt(ship.x, ship.y, 16);
+            explodeShip(ship);
             ship.lives--;
             ship.x = w / 2; ship.y = h / 2; ship.vx = 0; ship.vy = 0;
             ship.invuln = 240; // kept for gameplay fairness
@@ -595,8 +556,7 @@ function explodeShip(ship) {
       if (ship.invuln <= 0) { 
         for (let i = asteroids.length - 1; i >= 0; i--) {
           if (dist(ship.x, ship.y, asteroids[i].x, asteroids[i].y) < ship.r + asteroids[i].r) {
-            explodeShip(ship);// replaced from line below
-            //explodeAt(ship.x, ship.y, 20);
+            explodeShip(ship);
             ship.lives--;
             ship.x = w / 2; ship.y = h / 2; ship.vx = 0; ship.vy = 0;
             ship.invuln = 90;
@@ -634,13 +594,6 @@ function explodeShip(ship) {
       ctx.fillText("Score: " + score, 12, 22);
       ctx.fillText("Lives: " + ship.lives, 12, 44);
 
-      // If all asteroids cleared, spawn a fresh wave after a short delay
-     // if (asteroids.length === 0) {
-        //setTimeout(() => {
-          //if (asteroids.length === 0) resetAsteroids();
-       // }, 600);
-     // }
-      // Add nee code for wave of asteroids
       // If all asteroids are gone, start a new wave
 if (asteroids.length === 0) {
   setTimeout(() => {
@@ -650,8 +603,7 @@ if (asteroids.length === 0) {
     }
   }, 600);
 }
-      // end new code for wave of asteroids
-
+    
       // Game over overlay handling
       if (gameOver) {
         ctx.fillStyle = "rgba(0,0,0,0.5)";
