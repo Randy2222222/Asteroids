@@ -533,7 +533,7 @@ function explodeShip(ship) {
          break;
           }
         }
-      
+      }
 
       // Saucer bullets -> ship (ship.invuln still exists but no shield shown)
       if (ship.invuln <= 0) { 
