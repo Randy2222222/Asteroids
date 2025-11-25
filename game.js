@@ -287,7 +287,12 @@ window.onload = () => {
         if (this.side > 0 && this.x < -80) this.alive = false;
 
         // ensure sound stops if it leaves
-        if (!this.alive) stopActiveSaucerSound();
+       // if (!this.alive) stopActiveSaucerSound(); change saucer sound ⬇️
+        if (!this.alive && this.sound) {
+  try { this.sound.src.stop(); } catch(e){}
+  this.sound = null;
+}
+// End saucer sound fix⬆️
 
         this.fireTimer -= dt;
         if (this.fireTimer <= 0) {
