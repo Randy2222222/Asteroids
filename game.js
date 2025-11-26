@@ -34,7 +34,7 @@ function resizeCanvas() {
   // Apply scaling so that all drawing is in pixel space
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-  // IMPORTANT:
+  // 🚀 IMPORTANT:
   // w and h are REAL pixel game space,
   // used for ALL physics, bullets, ship, asteroids, and wrap.
   w = canvas.width;
