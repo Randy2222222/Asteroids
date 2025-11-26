@@ -164,12 +164,12 @@ resizeCanvas();
     const FRAME_RATE = 60;
     const SHIP_R = 15;
     const BULLET_SPEED = 6;
-    const BULLET_MAX_SCREEN_TRAVEL = .6; 
-    const BULLET_MAX_X_TRAVEL = 0.6;
-    const BULLET_MAX_Y_TRAVEL = 0.5;
+    const BULLET_MAX_SCREEN_TRAVEL = 1;
+    const BULLET_MAX_X_TRAVEL = 1;
+    const BULLET_MAX_Y_TRAVEL = 1;
     const SAUCER_SCORE = 1000;
-    const SAUCER_SPAWN_MIN = 40000;
-    const SAUCER_SPAWN_MAX = 120000;
+    const SAUCER_SPAWN_MIN = 20000;
+    const SAUCER_SPAWN_MAX = 40000;
 
     function randRange(min, max) { return Math.random() * (max - min) + min; }
     function wrapX(x) { return (x + w) % w; }
