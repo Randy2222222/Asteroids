@@ -30,7 +30,7 @@ function resizeCanvas() {
   canvas.height = Math.floor(cssH * dpr);
 
   // Align drawing coordinates to CSS pixels
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  //ctx.setTransform(dpr, 0, 0, dpr, 0, 0);🤣 commented out last fix
 
   // IMPORTANT: physics & wrap use CSS pixel coordinates
   w = cssW;
@@ -627,6 +627,8 @@ class Bullet {
     // Main loop
     // -------------------------
     function loop(now) {
+      // ADD WRAP FIX 🤣
+      ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
       const dt = now - lastTime;
       lastTime = now;
 
