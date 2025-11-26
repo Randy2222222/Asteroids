@@ -164,7 +164,7 @@ resizeCanvas();
     const FRAME_RATE = 60;
     const SHIP_R = 15;
     const BULLET_SPEED = 6;
-    const BULLET_MAX_SCREEN_TRAVEL = 1;
+    const BULLET_MAX_SCREEN_TRAVEL = 1.5;
     const BULLET_MAX_X_TRAVEL = 1;
     const BULLET_MAX_Y_TRAVEL = 1;
     const SAUCER_SCORE = 1000;
