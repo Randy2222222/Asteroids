@@ -389,16 +389,34 @@ window.onload = () => {
         this.y = y;
         this.dx = 5.5 * Math.cos(a);
         this.dy = 5.5 * Math.sin(a);
-        this.dist = 0;
-        this.maxDist = Math.max(w, h) * BULLET_MAX_SCREEN_TRAVEL;
-      }
-      update() {
-        this.x = wrapX(this.x + this.dx);
-        this.y = wrapY(this.y + this.dy);
-        this.dist += Math.hypot(this.dx, this.dy);
-      }
-      get alive() {
-        return this.dist < this.maxDist;
+      //  this.dist = 0;
+       // this.maxDist = Math.max(w, h) * BULLET_MAX_SCREEN_TRAVEL;
+   //   }
+    //  update() {
+     //    this.x = wrapX(this.x + this.dx);
+     //   this.y = wrapY(this.y + this.dy);
+     //   this.dist += Math.hypot(this.dx, this.dy);
+   //   }
+   //   get alive() {
+     //   return this.dist < this.maxDist;
+          // NEW distance tracking
+    this.distX = 0;
+    this.distY = 0;
+
+    this.maxX = w * SAUCER_BULLET_MAX_X_TRAVEL;
+    this.maxY = h * SAUCER_BULLET_MAX_Y_TRAVEL;
+  }
+
+  update() {
+    this.x = wrapX(this.x + this.dx);
+    this.y = wrapY(this.y + this.dy);
+
+    this.distX += Math.abs(this.dx);
+    this.distY += Math.abs(this.dy);
+  }
+
+  get alive() {
+    return this.distX <= this.maxX && this.distY <= this.maxY; // end of change from where I started my comment out at
       }
       draw() {
         ctx.fillStyle = "rgba(255,100,100,1)";
