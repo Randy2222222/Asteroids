@@ -18,21 +18,26 @@ window.onload = () => {
 
     // Resize helper: prefer visualViewport to avoid iPad "safe area" gaps
     function resizeCanvas() {
-      const dpr = window.devicePixelRatio || 1;
-      const cssW = window.visualViewport ? window.visualViewport.width : window.innerWidth;
-      const cssH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-      canvas.style.width = cssW + "px";
-      canvas.style.height = cssH + "px";
-      canvas.width = Math.floor(cssW * dpr);
-      canvas.height = Math.floor(cssH * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      w = cssW;
-      h = cssH;
-    }
-    window.addEventListener("resize", resizeCanvas);
-    window.addEventListener("orientationchange", resizeCanvas);
-    if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
+  const dpr = window.devicePixelRatio || 1;
+
+  const cssW = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+  const cssH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+
+  // Set CSS size
+  canvas.style.width = cssW + "px";
+  canvas.style.height = cssH + "px";
+
+  // Set REAL pixel buffer size for drawing + physics
+  canvas.width = Math.floor(cssW * dpr);
+  canvas.height = Math.floor(cssH * dpr);
+
+  // Apply scaling so drawing uses device pixels correctly
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  // 🚀 IMPORTANT: use REAL pixel dimensions for wrap/physics
+  w = canvas.width;
+  h = canvas.height;
+}
 
     // Avoid pinch-zoom / gestures on iOS
     document.addEventListener(
