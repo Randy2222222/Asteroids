@@ -629,7 +629,7 @@ class Bullet {
     // -------------------------
     function loop(now) {
       // FIX WRAP FUNCTION FOR CORRECT ANGLE OF TRAJECTORY REENTRY ON SCREEN
-      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       const dt = now - lastTime;
       lastTime = now;
 
