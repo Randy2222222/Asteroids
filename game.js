@@ -262,23 +262,16 @@ resizeCanvas();
       }
     }
 
-    class Bullet {
-      constructor(x, y, a) {
-        this.x = x;
-        this.y = y;
-        this.dx = BULLET_SPEED * Math.cos(a);
-        this.dy = BULLET_SPEED * Math.sin(a);
-        //this.dist = 0;
-      //  this.maxDist = Math.max(w, h) * BULLET_MAX_SCREEN_TRAVEL;
-    //  }
-    //  update() {
-       // this.x = wrapX(this.x + this.dx);
-     //   this.y = wrapY(this.y + this.dy);
-       // this.dist += Math.hypot(this.dx, this.dy);
-    //  }
-    //  get alive() {
-       // return this.dist < this.maxDist;
-        this.distX = 0;
+class Bullet {
+  constructor(x, y, a) {
+    this.x = x;
+    this.y = y;
+
+    this.dx = BULLET_SPEED * Math.cos(a);
+    this.dy = BULLET_SPEED * Math.sin(a);
+
+    // keep your X/Y max travel system
+    this.distX = 0;
     this.distY = 0;
 
     this.maxX = w * BULLET_MAX_X_TRAVEL;
@@ -286,22 +279,33 @@ resizeCanvas();
   }
 
   update() {
-    this.x = wrapX(this.x + this.dx);
-    this.y = wrapY(this.y + this.dy);
+    // Save old position BEFORE moving
+    const oldX = this.x;
+    const oldY = this.y;
 
-    this.distX += Math.abs(this.dx);
-    this.distY += Math.abs(this.dy);
+    // Move (raw)
+    const newX = this.x + this.dx;
+    const newY = this.y + this.dy;
+
+    // Wrap
+    this.x = wrapX(newX);
+    this.y = wrapY(newY);
+
+    // Correct distance traveled IN REAL GEOMETRY
+    this.distX += Math.abs(newX - oldX);
+    this.distY += Math.abs(newY - oldY);
   }
 
   get alive() {
-    return this.distX <= this.maxX && this.distY <= this.maxY; // end of change from where I started my comment out at
-      }
-      draw() {
-        ctx.fillStyle = "white";
-        ctx.fillRect(this.x - 1.2, this.y - 1.2, 2.4, 2.4);
-      }
-    }
+    return this.distX <= this.maxX && this.distY <= this.maxY;
+  }
 
+  draw() {
+    ctx.fillStyle = "white";
+    ctx.fillRect(this.x - 1.2, this.y - 1.2, 2.4, 2.4);
+  }
+}
+    
     class Asteroid {
       constructor(x, y, r) {
         this.x = x;
