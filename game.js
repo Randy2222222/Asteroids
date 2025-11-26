@@ -30,7 +30,7 @@ function resizeCanvas() {
   canvas.height = Math.floor(cssH * dpr);
 
   // Align drawing coordinates to CSS pixels
-  //ctx.setTransform(dpr, 0, 0, dpr, 0, 0);🤣 commented out last fix
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   // IMPORTANT: physics & wrap use CSS pixel coordinates
   w = cssW;
@@ -164,12 +164,12 @@ resizeCanvas();
     const FRAME_RATE = 60;
     const SHIP_R = 15;
     const BULLET_SPEED = 6;
-    const BULLET_MAX_SCREEN_TRAVEL = 1.5;
-    const BULLET_X_SCREEN_TRAVEL = 0.06;
-    const BULLET_Y_SCREEN_TRAVEL = 0.06;
+    const BULLET_MAX_SCREEN_TRAVEL = 1;
+    const BULLET_X_SCREEN_TRAVEL = 0.8;
+    const BULLET_Y_SCREEN_TRAVEL = 0.8;
     const SAUCER_SCORE = 1000;
-    const SAUCER_SPAWN_MIN = 20000;
-    const SAUCER_SPAWN_MAX = 40000;
+    const SAUCER_SPAWN_MIN = 40000;
+    const SAUCER_SPAWN_MAX = 120000;
 
     function randRange(min, max) { return Math.random() * (max - min) + min; }
     function wrapX(x) { return (x + w) % w; }
@@ -636,7 +636,7 @@ class Bullet {
     // -------------------------
     function loop(now) {
       // ADD WRAP FIX 🤣
-      ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
+      //ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
       const dt = now - lastTime;
       lastTime = now;
 
