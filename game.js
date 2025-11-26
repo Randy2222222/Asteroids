@@ -166,7 +166,7 @@ resizeCanvas();
     const BULLET_SPEED = 6;
     const BULLET_MAX_SCREEN_TRAVEL = 1;
     const BULLET_X_SCREEN_TRAVEL = 0.8;
-    const BULLET_Y_SCREEN_TRAVEL = 0.8;
+    const BULLET_Y_SCREEN_TRAVEL = 0.6;
     const SAUCER_SCORE = 1000;
     const SAUCER_SPAWN_MIN = 40000;
     const SAUCER_SPAWN_MAX = 120000;
@@ -635,8 +635,6 @@ class Bullet {
     // Main loop
     // -------------------------
     function loop(now) {
-      // ADD WRAP FIX 🤣
-      //ctx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
       const dt = now - lastTime;
       lastTime = now;
 
