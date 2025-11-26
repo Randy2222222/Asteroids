@@ -202,7 +202,7 @@ resizeCanvas();
     }
 
     // -------------------------
-    // Entities: Ship, Bullet, Asteroid, Saucer, SaucerBullet
+    //  🚀  Entities: Ship, Bullet, Asteroid, Saucer, SaucerBullet
     // -------------------------
     class Ship {
       constructor() {
@@ -788,7 +788,8 @@ class Bullet {
           particles.splice(i, 1);
         }
       }
-
+      // FIX WRAP FUNCTION FOR CORRECT ANGLE OF TRAJECTORY REENTRY ON SCREEN
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
       // DRAW ORDER
       asteroids.forEach(a => a.draw());
       saucers.forEach(s => s.draw());
