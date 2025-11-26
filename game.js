@@ -627,8 +627,6 @@ class Bullet {
     // Main loop
     // -------------------------
     function loop(now) {
-      // FIX WRAP RETURN ANGLE
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
       const dt = now - lastTime;
       lastTime = now;
 
