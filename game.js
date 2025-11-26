@@ -165,8 +165,6 @@ resizeCanvas();
     const SHIP_R = 15;
     const BULLET_SPEED = 6;
     const BULLET_MAX_SCREEN_TRAVEL = 1.5;
-    const BULLET_MAX_X_TRAVEL = 1;
-    const BULLET_MAX_Y_TRAVEL = 1;
     const SAUCER_SCORE = 1000;
     const SAUCER_SPAWN_MIN = 20000;
     const SAUCER_SPAWN_MAX = 40000;
@@ -262,6 +260,7 @@ resizeCanvas();
       }
     }
 
+    // BULLET FOR SHIP 
 class Bullet {
   constructor(x, y, a) {
     this.x = x;
@@ -270,35 +269,24 @@ class Bullet {
     this.dx = BULLET_SPEED * Math.cos(a);
     this.dy = BULLET_SPEED * Math.sin(a);
 
-    // keep your X/Y max travel system
-    this.distX = 0;
-    this.distY = 0;
-
-    this.maxX = w * BULLET_MAX_X_TRAVEL;
-    this.maxY = h * BULLET_MAX_Y_TRAVEL;
+    // distance tracking (screen-size independent)
+    this.dist = 0;
+    this.maxDist = Math.hypot(w, h) * BULLET_MAX_SCREEN_TRAVEL;
   }
 
   update() {
-    // Save old position BEFORE moving
-    const oldX = this.x;
-    const oldY = this.y;
+    // move with wrap
+    this.x = wrapX(this.x + this.dx);
+    this.y = wrapY(this.y + this.dy);
 
-    // Move (raw)
-    const newX = this.x + this.dx;
-    const newY = this.y + this.dy;
-
-    // Wrap
-    this.x = wrapX(newX);
-    this.y = wrapY(newY);
-
-    // Correct distance traveled IN REAL GEOMETRY
-    this.distX += Math.abs(newX - oldX);
-    this.distY += Math.abs(newY - oldY);
+    // total distance traveled
+    this.dist += Math.hypot(this.dx, this.dy);
   }
 
   get alive() {
-    return this.distX <= this.maxX && this.distY <= this.maxY;
+    return this.dist < this.maxDist;
   }
+}
 
   draw() {
     ctx.fillStyle = "white";
