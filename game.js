@@ -156,7 +156,7 @@ window.onload = () => {
     const BULLET_SPEED = 6;
    // const BULLET_MAX_SCREEN_TRAVEL = .6; // bullets expire after ~1.5x screen
     const BULLET_MAX_X_TRAVEL = 0.6;
-    const BULLET_MAX_Y_TRAVEL = 0.4;
+    const BULLET_MAX_Y_TRAVEL = 0.5;
     const SAUCER_SCORE = 1000;
     const SAUCER_SPAWN_MIN = 40000;
     const SAUCER_SPAWN_MAX = 120000;
