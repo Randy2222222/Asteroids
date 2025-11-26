@@ -3,41 +3,50 @@
 window.onload = () => {
   (async function init() {
     // -------------------------
-    // Canvas + rendering setup
-    // -------------------------
-    const canvas = document.getElementById("game");
-    if (!canvas) {
-      console.error("Missing canvas #game");
-      return;
-    }
-    const ctx = canvas.getContext("2d");
+// Canvas + rendering setup
+// -------------------------
+const canvas = document.getElementById("game");
+if (!canvas) {
+  console.error("Missing canvas #game");
+  return;
+}
+const ctx = canvas.getContext("2d");
 
-    // logical CSS dimensions (not raw pixel buffer)
-    let w = window.innerWidth;
-    let h = window.innerHeight;
+// These will be updated by resizeCanvas() properly
+let w = 0;   // REAL pixel game width
+let h = 0;   // REAL pixel game height
 
-    // Resize helper: prefer visualViewport to avoid iPad "safe area" gaps
-    function resizeCanvas() {
+function resizeCanvas() {
   const dpr = window.devicePixelRatio || 1;
 
+  // CSS logical size (system-reported viewport)
   const cssW = window.visualViewport ? window.visualViewport.width : window.innerWidth;
   const cssH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
 
-  // Set CSS size
+  // CSS style size (what the user sees)
   canvas.style.width = cssW + "px";
   canvas.style.height = cssH + "px";
 
-  // Set REAL pixel buffer size for drawing + physics
-  canvas.width = Math.floor(cssW * dpr);
+  // REAL pixel buffer (what the game logic should use!)
+  canvas.width  = Math.floor(cssW * dpr);
   canvas.height = Math.floor(cssH * dpr);
 
-  // Apply scaling so drawing uses device pixels correctly
+  // Apply scaling so that all drawing is in pixel space
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-  // 🚀 IMPORTANT: use REAL pixel dimensions for wrap/physics
+  // IMPORTANT:
+  // w and h are REAL pixel game space,
+  // used for ALL physics, bullets, ship, asteroids, and wrap.
   w = canvas.width;
   h = canvas.height;
 }
+
+window.addEventListener("resize", resizeCanvas);
+window.addEventListener("orientationchange", resizeCanvas);
+if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
+
+// Initial setup
+resizeCanvas();
 
     // Avoid pinch-zoom / gestures on iOS
     document.addEventListener(
