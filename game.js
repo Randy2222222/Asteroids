@@ -33,8 +33,8 @@ function resizeCanvas() {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   // IMPORTANT: physics & wrap use CSS pixel coordinates
-  w = canvas.width;
-  h = canvas.height;
+  w = cssW;
+  h = cssH;
 }
 
 window.addEventListener("resize", resizeCanvas);
