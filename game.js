@@ -165,6 +165,8 @@ resizeCanvas();
     const SHIP_R = 15;
     const BULLET_SPEED = 6;
     const BULLET_MAX_SCREEN_TRAVEL = 1.5;
+    const BULLET_X_SCREEN_TRAVEL = 0.06;
+    const BULLET_Y_SCREEN_TRAVEL = 0.06;
     const SAUCER_SCORE = 1000;
     const SAUCER_SPAWN_MIN = 20000;
     const SAUCER_SPAWN_MAX = 40000;
@@ -269,9 +271,13 @@ class Bullet {
     this.dx = BULLET_SPEED * Math.cos(a);
     this.dy = BULLET_SPEED * Math.sin(a);
 
-    // distance tracking (screen-size independent)
-    this.dist = 0;
-    this.maxDist = Math.hypot(w, h) * BULLET_MAX_SCREEN_TRAVEL;
+    // 🔥 Restore YOUR original X/Y distance tracking
+    this.distX = 0;
+    this.distY = 0;
+
+    // 🔥 Independent max distances based on screen size
+    this.maxX = w * BULLET_X_SCREEN_TRAVEL;
+    this.maxY = h * BULLET_Y_SCREEN_TRAVEL;
   }
 
   update() {
@@ -279,12 +285,14 @@ class Bullet {
     this.x = wrapX(this.x + this.dx);
     this.y = wrapY(this.y + this.dy);
 
-    // total distance traveled
-    this.dist += Math.hypot(this.dx, this.dy);
+    // 🔥 Track absolute X/Y travel separately
+    this.distX += Math.abs(this.dx);
+    this.distY += Math.abs(this.dy);
   }
 
   get alive() {
-    return this.dist < this.maxDist;
+    // 🔥 Bullet dies if it exceeds X or Y travel limits
+    return this.distX < this.maxX && this.distY < this.maxY;
   }
 
   draw() {
