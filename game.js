@@ -286,7 +286,6 @@ class Bullet {
   get alive() {
     return this.dist < this.maxDist;
   }
-}
 
   draw() {
     ctx.fillStyle = "white";
