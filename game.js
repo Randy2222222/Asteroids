@@ -19,26 +19,22 @@ let h = 0;   // REAL pixel game height
 function resizeCanvas() {
   const dpr = window.devicePixelRatio || 1;
 
-  // CSS logical size (system-reported viewport)
   const cssW = window.visualViewport ? window.visualViewport.width : window.innerWidth;
   const cssH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
 
-  // CSS style size (what the user sees)
   canvas.style.width = cssW + "px";
   canvas.style.height = cssH + "px";
 
-  // REAL pixel buffer (what the game logic should use!)
+  // High-resolution drawing buffer
   canvas.width  = Math.floor(cssW * dpr);
   canvas.height = Math.floor(cssH * dpr);
 
-  // Apply scaling so that all drawing is in pixel space
+  // Align drawing coordinates to CSS pixels
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-  // 🚀 IMPORTANT:
-  // w and h are REAL pixel game space,
-  // used for ALL physics, bullets, ship, asteroids, and wrap.
-  w = canvas.width;
-  h = canvas.height;
+  // IMPORTANT: physics & wrap use CSS pixel coordinates
+  w = cssW;
+  h = cssH;
 }
 
 window.addEventListener("resize", resizeCanvas);
