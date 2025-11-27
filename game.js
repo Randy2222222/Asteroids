@@ -280,15 +280,40 @@ class Bullet {
     this.maxY = h * BULLET_Y_SCREEN_TRAVEL;
   }
 
-  update() {
+ // update() {
     // move with wrap
-    this.x = wrapX(this.x + this.dx);
-    this.y = wrapY(this.y + this.dy);
+  //  this.x = wrapX(this.x + this.dx);
+   // this.y = wrapY(this.y + this.dy);
 
     // 🔥 Track absolute X/Y travel separately
+   // this.distX += Math.abs(this.dx);
+   // this.distY += Math.abs(this.dy);
+//  }
+  update () {
+  // Define nextX and nextY
+     let nextX = this.x + this.dx;
+     let nextY = this.y + this.dy;
+
+ // Wrap Bullet to other side of Screen 🖥️
+    if (nextX < 0) {
+        nextX += w; // Wrap to the right
+    } else if (nextX > w) {
+        nextX -= w; // Wrap to the left
+    }
+
+    if (nextY < 0) {
+        nextY += h; // Wrap to the bottom
+    } else if (nextY > h) {
+        nextY -= h; // Wrap to the top
+    }
+        this.x = nextX;
+        this.y = nextY;
+
+// 🔥 Track absolute X/Y travel separately
     this.distX += Math.abs(this.dx);
     this.distY += Math.abs(this.dy);
-  }
+
+}
 
   get alive() {
     // 🔥 Bullet dies if it exceeds X or Y travel limits
