@@ -55,6 +55,9 @@ window.onload = () => {
     if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
 
     resizeCanvas();
+    setTimeout(() => {
+  resizeCanvas();
+}, 50);
 
     // Prevent pinch zoom / double tap zoom
     document.addEventListener(
