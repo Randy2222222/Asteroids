@@ -372,7 +372,7 @@ class Bullet {
 
         // if dead, do nothing else
         if (!this.alive) return;
-
+      }
         // firing timer
         this.fireTimer -= dt;
         if (this.fireTimer <= 0) {
