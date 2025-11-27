@@ -294,12 +294,12 @@ class Bullet {
     // 🔥 Bullet dies if it exceeds X or Y travel limits
     return this.distX < this.maxX && this.distY < this.maxY;
   }
-
+}
   draw() {
     ctx.fillStyle = "white";
     ctx.fillRect(this.x - 1.2, this.y - 1.2, 2.4, 2.4);
   }
-}
+
     
     class Asteroid {
       constructor(x, y, r) {
