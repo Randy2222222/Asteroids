@@ -166,7 +166,7 @@ resizeCanvas();
     const BULLET_SPEED = 6;
     const BULLET_MAX_SCREEN_TRAVEL = 1;
     const BULLET_X_SCREEN_TRAVEL = 0.7;
-    const BULLET_Y_SCREEN_TRAVEL = 1;
+    const BULLET_Y_SCREEN_TRAVEL = 0.8;
     const SAUCER_SCORE = 1000;
     const SAUCER_SPAWN_MIN = 40000;
     const SAUCER_SPAWN_MAX = 120000;
