@@ -300,8 +300,7 @@ class Bullet {
     ctx.fillRect(this.x - 1.2, this.y - 1.2, 2.4, 2.4);
   }
 
-    
-    class Asteroid {
+     class Asteroid {
       constructor(x, y, r) {
         this.x = x;
         this.y = y;
