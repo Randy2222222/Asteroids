@@ -649,6 +649,11 @@ class SaucerBullet {
 ctx.strokeStyle = "red";
 ctx.lineWidth = 4;
 ctx.strokeRect(0, 0, w, h);
+       ctx.fillStyle = "yellow";
+ctx.font = "20px monospace";
+ctx.fillText(`w=${w}  h=${h}`, 20, 40);
+ctx.fillText(`canvas.width=${canvas.width} canvas.height=${canvas.height}`, 20, 70);
+ctx.fillText(`css: ${canvas.style.width} x ${canvas.style.height}`, 20, 100);
       // Tap-to-start overlay
       if (!started) {
         ctx.fillStyle = "rgba(0,0,0,0.6)";
