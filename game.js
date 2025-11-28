@@ -646,9 +646,6 @@ class Bullet {
 
       // Tap-to-start overlay
       if (!started) {
-    lockViewport();   // <--- FREEZE w/h here 🔒
-    started = true;
-    // added lockViewport (); : started = true; 🔒
         ctx.fillStyle = "rgba(0,0,0,0.6)";
         ctx.fillRect(0, 0, w, h);
         ctx.fillStyle = "white";
@@ -657,6 +654,9 @@ class Bullet {
         ctx.fillText("ASTEROIDS — TAP TO START", w / 2, h / 2 - 10);
         ctx.font = "14px monospace";
         ctx.fillText("Tap screen or use on-screen controls", w / 2, h / 2 + 18);
+           lockViewport();   // <--- FREEZE w/h here 🔒
+    started = true;
+    // added lockViewport (); : started = true; 🔒
         requestAnimationFrame(loop);
         return;
       }
