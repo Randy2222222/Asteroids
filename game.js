@@ -301,7 +301,7 @@ class Bullet {
         this.y += h; // Wrap to the bottom
     } else if (this.y > h) {
         this.y -= h; // Wrap to the top
-    }
+   // }comment out add one after return🤔
 
 
 // 🔥 Track absolute X/Y travel separately
@@ -313,8 +313,8 @@ class Bullet {
   get alive() {
     // 🔥 Bullet dies if it exceeds X or Y travel 
     return this.distX < this.maxX && this.distY < this.maxY;
-  }
-
+   }
+  }// moved from above 🤔
   draw() {
     ctx.fillStyle = "white";
     ctx.fillRect(this.x - 1.2, this.y - 1.2, 2.4, 2.4);
