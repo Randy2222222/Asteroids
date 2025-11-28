@@ -16,27 +16,43 @@ const ctx = canvas.getContext("2d");
 let w = 0;   // REAL pixel game width
 let h = 0;   // REAL pixel game height
 
-function resizeCanvas() {
-  const dpr = window.devicePixelRatio || 1;
+   function resizeCanvas() {
+  // Set canvas CSS size to fill the screen
+  canvas.style.width = "100vw";
+  canvas.style.height = "100vh";
 
-  const cssW = window.visualViewport ? window.visualViewport.width : window.innerWidth;
-  const cssH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  // Match the drawing buffer EXACTLY to the CSS size
+  canvas.width  = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
 
-  canvas.style.width = cssW + "px";
-  canvas.style.height = cssH + "px";
+  // No scaling, 1 game pixel = 1 screen pixel
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-  // High-resolution drawing buffer
-  canvas.width  = Math.floor(cssW * dpr);
-  canvas.height = Math.floor(cssH * dpr);
-
-  // Align drawing coordinates to CSS pixels
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-  // IMPORTANT: physics & wrap use CSS pixel coordinates
-  w = cssW;
-  h = cssH;
+  // Game world size
+  w = canvas.width;
+  h = canvas.height;
 }
 
+//function resizeCanvas() {
+  //const dpr = window.devicePixelRatio || 1;
+
+  //const cssW = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+ // const cssH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+
+ // canvas.style.width = cssW + "px";
+  //canvas.style.height = cssH + "px";
+
+  // High-resolution drawing buffer
+ // canvas.width  = Math.floor(cssW * dpr);
+ // canvas.height = Math.floor(cssH * dpr);
+
+  // Align drawing coordinates to CSS pixels
+//  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  // IMPORTANT: physics & wrap use CSS pixel coordinates
+  //w = cssW;
+ // h = cssH;
+//}
 window.addEventListener("resize", resizeCanvas);
 window.addEventListener("orientationchange", resizeCanvas);
 if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
