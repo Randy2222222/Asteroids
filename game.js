@@ -16,23 +16,25 @@ const ctx = canvas.getContext("2d");
 let w = 0;   // REAL pixel game width
 let h = 0;   // REAL pixel game height
 
-   function resizeCanvas() {
-  // Set canvas CSS size to fill the screen
-  canvas.style.width = "100vw";
-  canvas.style.height = "100vh";
+  function resizeCanvas() {
+  // Remove ALL CSS scaling by the browser
+  canvas.style.width = "";
+  canvas.style.height = "";
 
-  // Match the drawing buffer EXACTLY to the CSS size
-  canvas.width  = canvas.clientWidth;
-  canvas.height = canvas.clientHeight;
+  // Force canvas size to the actual display size
+  const width  = window.innerWidth;
+  const height = window.innerHeight;
 
-  // No scaling, 1 game pixel = 1 screen pixel
+  canvas.width = width;
+  canvas.height = height;
+
+  // reset ALL transforms
   ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-  // Game world size
-  w = canvas.width;
-  h = canvas.height;
+  // NOW the world = the pixels
+  w = width;
+  h = height;
 }
-
 //function resizeCanvas() {
   //const dpr = window.devicePixelRatio || 1;
 
