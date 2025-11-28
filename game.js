@@ -644,8 +644,11 @@ class SaucerBullet {
       // background subtle clear
       ctx.clearRect(0, 0, w, h);
       ctx.fillStyle = "rgba(0,0,0,0.12)";
-      ctx.fillRect(0, 0, w, h);
-
+      ctx.fillRect(0, 0, w, h); 
+       // DEBUG: draw the true physics boundary
+ctx.strokeStyle = "red";
+ctx.lineWidth = 4;
+ctx.strokeRect(0, 0, w, h);
       // Tap-to-start overlay
       if (!started) {
         ctx.fillStyle = "rgba(0,0,0,0.6)";
