@@ -36,6 +36,8 @@ function resizeCanvas() {
    w = cssW;
    h = cssH;
 }
+  console.log("w=", w, "h=", h);
+setInterval(() => console.log("loop w/h:", w, h), 3000);
 window.addEventListener("resize", resizeCanvas);
 //window.addEventListener("orientationchange", resizeCanvas);
 if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
