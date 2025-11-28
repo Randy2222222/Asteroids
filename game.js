@@ -289,25 +289,20 @@ class Bullet {
    // this.distX += Math.abs(this.dx);
    // this.distY += Math.abs(this.dy);
 //  }
+ // Wrap Bullets to other side of Screen🖥️
   update () {
-  // Define nextX and nextY
-     let nextX = this.x + this.dx;
-     let nextY = this.y + this.dy;
-
- // Wrap Bullet to other side of Screen 🖥️
-    if (nextX < 0) {
-        nextX += w; // Wrap to the right
-    } else if (nextX > w) {
-        nextX -= w; // Wrap to the left
+   if (this.x < 0) {
+        this.x += w; // Wrap to the right
+    } else if (this.x > w) {
+        this.x -= w; // Wrap to the left
     }
 
-    if (nextY < 0) {
-        nextY += h; // Wrap to the bottom
-    } else if (nextY > h) {
-        nextY -= h; // Wrap to the top
+    if (this.y < 0) {
+        this.y += h; // Wrap to the bottom
+    } else if (this.y > h) {
+        this.y -= h; // Wrap to the top
     }
-        this.x = nextX;
-        this.y = nextY;
+}
 
 // 🔥 Track absolute X/Y travel separately
     this.distX += Math.abs(this.dx);
@@ -316,7 +311,7 @@ class Bullet {
 }
 
   get alive() {
-    // 🔥 Bullet dies if it exceeds X or Y travel limits
+    // 🔥 Bullet dies if it exceeds X or Y travel 
     return this.distX < this.maxX && this.distY < this.maxY;
   }
 
