@@ -38,10 +38,16 @@ function resizeCanvas() {
    h = cssH;
 }
   
-window.addEventListener("resize", resizeCanvas);
-//window.addEventListener("orientationchange", resizeCanvas);
-if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
-
+//window.addEventListener("resize", resizeCanvas);
+//if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
+// Only resize before game starts or during restart
+function lockViewport() {
+    resizeCanvas();
+    window.removeEventListener("resize", resizeCanvas);
+    if (window.visualViewport)
+        window.visualViewport.removeEventListener("resize", resizeCanvas);
+} // end listener update
+    
 // Initial setup
 resizeCanvas();
 
