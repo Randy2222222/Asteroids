@@ -261,6 +261,9 @@ resizeCanvas();
 // --------------------------------------
 // Bullet Class
 // --------------------------------------
+// --------------------------------------
+// Bullet Class
+// --------------------------------------
 class Bullet {
   constructor(x, y, a) {
     this.x = x;
@@ -269,30 +272,24 @@ class Bullet {
     this.dx = BULLET_SPEED * Math.cos(a);
     this.dy = BULLET_SPEED * Math.sin(a);
 
-    // 🔥 Restore YOUR original X/Y distance tracking
-    this.distX = 0;
-    this.distY = 0;
-
-    // 🔥 Independent max distances based on screen size
-    this.maxX = w * BULLET_X_SCREEN_TRAVEL;
-    this.maxY = h * BULLET_Y_SCREEN_TRAVEL;
+    this.dead = false;
   }
 
-   update() {
-    // move with wrap
-     this.x = wrapX(this.x + this.dx);
-     this.y = wrapY(this.y + this.dy);
+  update() {
+    // MOVE BULLET
+    this.x += this.dx;
+    this.y += this.dy;
 
-    // 🔥 Track absolute X/Y travel separately
-    this.distX += Math.abs(this.dx);
-    this.distY += Math.abs(this.dy);
+    // STOP AT EDGE
+    if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) {
+      this.dead = true;
+    }
   }
 
   get alive() {
-    // 🔥 Bullet dies if it exceeds X or Y travel 
-    return this.distX < this.maxX && this.distY < this.maxY;
-   }
- 
+    return !this.dead;
+  }
+
   draw() {
     ctx.fillStyle = "white";
     ctx.fillRect(this.x - 1.2, this.y - 1.2, 2.4, 2.4);
