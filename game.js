@@ -411,8 +411,10 @@ class Bullet {
         ctx.restore();
       }
     }
-
-    class SaucerBullet {
+//--------------------
+//   SAUCER BULLET
+//--------------------
+class SaucerBullet {
       constructor(x, y, a) {
         this.x = x;
         this.y = y;
@@ -434,7 +436,7 @@ class Bullet {
         ctx.fillRect(this.x - 1.5, this.y - 1.5, 3, 3);
       }
     }
-
+    // End class SaucerBullet {
     // -------------------------
     // Game state
     // -------------------------
