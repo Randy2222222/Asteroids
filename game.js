@@ -11,7 +11,7 @@ const canvas = document.getElementById("game");
  }
 const ctx = canvas.getContext("2d");
 
-// These will be updated by resizeCanvas() properly
+// These will be updated by resizeCanvas() properlyy
    let w = 0;// REAL pixel game width
    let h = 0; // REAL pixel game height
 
@@ -262,7 +262,6 @@ resizeCanvas();
 // Bullet Class
 // --------------------------------------
 class Bullet {
-       class Bullet {
   constructor(x, y, a) {
     this.x = x;
     this.y = y;
