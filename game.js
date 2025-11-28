@@ -10,31 +10,13 @@ if (!canvas) {
   console.error("Missing canvas #game");
   return;
 }
-const ctx = canvas.getContext("2d");
+//const ctx = canvas.getContext("2d");
 
 // These will be updated by resizeCanvas() properly
-let w = 0;   // REAL pixel game width
-let h = 0;   // REAL pixel game height
-
-  function resizeCanvas() {
-  // Remove ALL CSS scaling by the browser
-  canvas.style.width = "";
-  canvas.style.height = "";
-
-  // Force canvas size to the actual display size
-  const width  = window.innerWidth;
-  const height = window.innerHeight;
-
-  canvas.width = width;
-  canvas.height = height;
-
-  // reset ALL transforms
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
+let w = 1536; // REAL pixel game width
+let h = 2048; // REAL pixel game height
 
   // NOW the world = the pixels
-  w = width;
-  h = height;
-}
 //function resizeCanvas() {
   //const dpr = window.devicePixelRatio || 1;
 
@@ -55,12 +37,12 @@ let h = 0;   // REAL pixel game height
   //w = cssW;
  // h = cssH;
 //}
-window.addEventListener("resize", resizeCanvas);
-window.addEventListener("orientationchange", resizeCanvas);
+//window.addEventListener("resize", resizeCanvas);
+//window.addEventListener("orientationchange", resizeCanvas);
 //if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
 
 // Initial setup
-resizeCanvas();
+//resizeCanvas();
 
     // Avoid pinch-zoom / gestures on iOS
     document.addEventListener(
