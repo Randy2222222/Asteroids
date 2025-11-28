@@ -27,11 +27,13 @@ function resizeCanvas() {
   canvas.style.height = cssH + "px";
 
   // High-resolution drawing buffer
-   canvas.width  = Math.floor(cssW * dpr);
-   canvas.height = Math.floor(cssH * dpr);
+ //  canvas.width  = Math.floor(cssW * dpr);
+  // canvas.height = Math.floor(cssH * dpr);
+     canvas.width = cssw;
+     canvis.height = cssw:
 
   // Align drawing coordinates to CSS pixels
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+//  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   // IMPORTANT: physics & wrap use CSS pixel coordinates
    w = cssW;
