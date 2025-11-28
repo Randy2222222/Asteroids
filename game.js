@@ -256,10 +256,12 @@ resizeCanvas();
         }
         ctx.shadowBlur = 0;
         ctx.restore();
-      }
-        // NOTE: end of ship class
-
-     // Bullet Class
+       }  // end of draw()
+     }  // end of Ship class
+// --------------------------------------
+// Bullet Class
+// --------------------------------------
+class Bullet {
        class Bullet {
   constructor(x, y, a) {
     this.x = x;
