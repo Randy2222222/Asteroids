@@ -1,4 +1,5 @@
-
+   let w = 0;// REAL pixel game width
+   let h = 0; // REAL pixel game height
 window.onload = () => {
  (async function init() {
    // -------------------------
@@ -13,7 +14,7 @@ const ctx = canvas.getContext("2d");
 
 // These will be updated by resizeCanvas() properlyy
    let w = 0;// REAL pixel game width
-   let h = 0; // REAL pixel game height
+   let h = 0;// Real pixel game height
 
   // NOW the world = the pixels
 function resizeCanvas() {
