@@ -1,4 +1,6 @@
 // game.js
+let w = 1536; // Don't forget to take these out on the change back 🤔
+let h = 2048;
 window.onload = () => {
   (async function init() {
 
@@ -9,11 +11,6 @@ window.onload = () => {
     }
 
     const ctx = canvas.getContext("2d");
-
-    // HARD WIRED iPad resolution (portrait)
-    const w = 1536;
-    const h = 2048;
-
     // Set canvas pixel buffer
     canvas.width  = w;
     canvas.height = h;
