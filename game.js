@@ -30,7 +30,7 @@ function resizeCanvas() {
  //  canvas.width  = Math.floor(cssW * dpr);
   // canvas.height = Math.floor(cssH * dpr);
      canvas.width = cssw;
-     canvis.height = cssw:
+     canvas.height = cssw;
 
   // Align drawing coordinates to CSS pixels
 //  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
