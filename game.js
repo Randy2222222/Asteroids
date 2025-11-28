@@ -280,34 +280,34 @@ class Bullet {
     this.maxY = h * BULLET_Y_SCREEN_TRAVEL;
   }
 
- // update() {
+   update() {
     // move with wrap
   //  this.x = wrapX(this.x + this.dx);
    // this.y = wrapY(this.y + this.dy);
 
     // 🔥 Track absolute X/Y travel separately
-   // this.distX += Math.abs(this.dx);
-   // this.distY += Math.abs(this.dy);
+    this.distX += Math.abs(this.dx);
+    this.distY += Math.abs(this.dy);
 //  }
  // Wrap Bullets to other side of Screen🖥️
-  update () {
+ // update () {
    if (this.x < 0) {
         this.x += w; // Wrap to the right
     } else if (this.x > w) {
         this.x -= w; // Wrap to the left
     }
-
+o
     if (this.y < 0) {
         this.y += h; // Wrap to the bottom
     } else if (this.y > h) {
         this.y -= h; // Wrap to the top
-   // }comment out add one after return🤔
+     }
 
 
 // 🔥 Track absolute X/Y travel separately
-    this.distX += Math.abs(this.dx);
-    this.distY += Math.abs(this.dy);
-    } // replaced from above🤔
+   // this.distX += Math.abs(this.dx);
+   // this.distY += Math.abs(this.dy);
+    
 }
 
   get alive() {
