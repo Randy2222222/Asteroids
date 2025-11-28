@@ -289,8 +289,6 @@ class Bullet {
     this.distX += Math.abs(this.dx);
     this.distY += Math.abs(this.dy);
   }
-    
-}
 
   get alive() {
     // 🔥 Bullet dies if it exceeds X or Y travel 
