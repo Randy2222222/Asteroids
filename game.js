@@ -57,7 +57,7 @@ let h = 0;   // REAL pixel game height
 //}
 window.addEventListener("resize", resizeCanvas);
 window.addEventListener("orientationchange", resizeCanvas);
-if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
+//if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
 
 // Initial setup
 resizeCanvas();
