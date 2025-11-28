@@ -1,5 +1,3 @@
-   let w = 0;// REAL pixel game width
-   let h = 0; // REAL pixel game height
 window.onload = () => {
  (async function init() {
    // -------------------------
@@ -13,8 +11,8 @@ const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
 // These will be updated by resizeCanvas() properlyy
- //  let w = 0;// REAL pixel game width
-//   let h = 0;// Real pixel game height
+     let w = 0;// REAL pixel game width
+     let h = 0;// Real pixel game height
 
   // NOW the world = the pixels
 function resizeCanvas() {
@@ -27,28 +25,22 @@ function resizeCanvas() {
   canvas.style.height = cssH + "px";
 
   // High-resolution drawing buffer
-     canvas.width  = Math.floor(cssW * dpr);
-     canvas.height = Math.floor(cssH * dpr);
-    // canvas.width = cssw;
-    // canvas.height = cssw;
+     //canvas.width  = Math.floor(cssW * dpr);
+    // canvas.height = Math.floor(cssH * dpr);
+       canvas.width = cssW;
+       canvas.height = cssH;
 
   // Align drawing coordinates to CSS pixels
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  //  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   // IMPORTANT: physics & wrap use CSS pixel coordinates
    w = cssW;
    h = cssH;
 }
   
-//window.addEventListener("resize", resizeCanvas);
-//if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
-// Only resize before game starts or during restart
-function lockViewport() {
-    resizeCanvas();
-    window.removeEventListener("resize", resizeCanvas);
-    if (window.visualViewport)
-        window.visualViewport.removeEventListener("resize", resizeCanvas);
-} // end listener update
+window.addEventListener("resize", resizeCanvas);
+if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
+
     
 // Initial setup
 resizeCanvas();
@@ -657,9 +649,6 @@ class SaucerBullet {
         ctx.fillText("ASTEROIDS — TAP TO START", w / 2, h / 2 - 10);
         ctx.font = "14px monospace";
         ctx.fillText("Tap screen or use on-screen controls", w / 2, h / 2 + 18);
-           lockViewport();   // <--- FREEZE w/h here 🔒
-    started = true;
-    // added lockViewport (); : started = true; 🔒
         requestAnimationFrame(loop);
         return;
       }
