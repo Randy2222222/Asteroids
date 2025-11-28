@@ -1,79 +1,47 @@
-// game.js
-let w = 1536; // Don't forget to take these out on the change back 🤔
-let h = 2048;
+
 window.onload = () => {
-  (async function init() {
-
-    const canvas = document.getElementById("game");
-    if (!canvas) {
-      console.error("Missing canvas #game");
-      return;
-    }
-
-    const ctx = canvas.getContext("2d");
-    // Set canvas pixel buffer
-    canvas.width  = w;
-    canvas.height = h;
-
-    // Prevent CSS scaling
-    canvas.style.width  = w + "px";
-    canvas.style.height = h + "px";
-
-    // Reset all transforms
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-    // FROM THIS POINT ON:
-    // - w and h NEVER change
-    // - no resize events ever fire
-    // - the game behaves the same every frame
-
-    // Continue with game initialization here…
-
-  })();
-};
-//window.onload = () => {
- // (async function init() {
-    // -------------------------
-// Canvas + rendering setup
-// -------------------------
-//const canvas = document.getElementById("game");
-//if (!canvas) {
-  //console.error("Missing canvas #game");
-  //return;
-//}
-//const ctx = canvas.getContext("2d");
+ (async function init() {
+   // -------------------------
+   // Canvas + rendering setup
+   // -------------------------
+const canvas = document.getElementById("game");
+ if (!canvas) {
+  console.error("Missing canvas #game");
+  return;
+ }
+const ctx = canvas.getContext("2d");
 
 // These will be updated by resizeCanvas() properly
-//let w = 0;// REAL pixel game width
-//let h = 0; // REAL pixel game height
+   let w = 0;// REAL pixel game width
+   let h = 0; // REAL pixel game height
 
   // NOW the world = the pixels
-//function resizeCanvas() {
-  //const dpr = window.devicePixelRatio || 1;
+function resizeCanvas() {
+  const dpr = window.devicePixelRatio || 1;
 
-  //const cssW = window.visualViewport ? window.visualViewport.width : window.innerWidth;
- // const cssH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  const cssW = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+  const cssH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
 
- // canvas.style.width = cssW + "px";
-  //canvas.style.height = cssH + "px";
+  canvas.style.width = cssW + "px";
+  canvas.style.height = cssH + "px";
 
   // High-resolution drawing buffer
- // canvas.width  = Math.floor(cssW * dpr);
- // canvas.height = Math.floor(cssH * dpr);
+   canvas.width  = Math.floor(cssW * dpr);
+   canvas.height = Math.floor(cssH * dpr);
 
   // Align drawing coordinates to CSS pixels
-//  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   // IMPORTANT: physics & wrap use CSS pixel coordinates
-  //w = cssW;
- // h = cssH;
-//}
-//window.addEventListener("resize", resizeCanvas);
+   w = cssW;
+   h = cssH;
+}
+window.addEventListener("resize", resizeCanvas);
 //window.addEventListener("orientationchange", resizeCanvas);
-//if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
+if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
 
 // Initial setup
-//resizeCanvas();
+resizeCanvas();
 
     // Avoid pinch-zoom / gestures on iOS
     document.addEventListener(
