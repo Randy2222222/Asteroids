@@ -302,7 +302,7 @@ class Bullet {
     } else if (this.y > h) {
         this.y -= h; // Wrap to the top
     }
-}
+
 
 // 🔥 Track absolute X/Y travel separately
     this.distX += Math.abs(this.dx);
