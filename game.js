@@ -646,6 +646,9 @@ class Bullet {
 
       // Tap-to-start overlay
       if (!started) {
+    lockViewport();   // <--- FREEZE w/h here 🔒
+    started = true;
+    // added lockViewport (); : started = true; 🔒
         ctx.fillStyle = "rgba(0,0,0,0.6)";
         ctx.fillRect(0, 0, w, h);
         ctx.fillStyle = "white";
