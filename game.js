@@ -258,12 +258,8 @@ resizeCanvas();
         }
         ctx.shadowBlur = 0;
         ctx.restore();
-        // NOTE: invuln exists for collision timing but we do NOT draw any shield ring
-      }
-    }
-
-    // BULLET FOR SHIP 
-class Bullet {
+        // NOTE: 
+       class Bullet {
   constructor(x, y, a) {
     this.x = x;
     this.y = y;
