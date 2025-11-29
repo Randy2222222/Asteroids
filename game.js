@@ -16,8 +16,7 @@ const ctx = canvas.getContext("2d");
 
   // NOW the world = the pixels
 function resizeCanvas() {
-  //const dpr = window.devicePixelRatio || 1;
-
+  
   const cssW = window.visualViewport ? window.visualViewport.width : window.innerWidth;
   const cssH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
 
