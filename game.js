@@ -29,7 +29,10 @@ function resizeCanvas() {
     // canvas.height = Math.floor(cssH * dpr);
        canvas.width = cssW;
        canvas.height = cssH;
-
+// debug console
+ const vw = window.visualViewport?.width  || window.innerWidth;
+const vh = window.visualViewport?.height || window.innerHeight;
+console.log("Viewport =", vw, "x", vh);
   // Align drawing coordinates to CSS pixels
   //  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
