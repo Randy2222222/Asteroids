@@ -199,8 +199,14 @@ canvas.height = h;   // real buffer height
         this.vy *= 0.995;
         this.x += this.vx;
         this.y += this.vy;
-        this.x = wrapX(this.x);
-        this.y = wrapY(this.y);
+        //this.x = wrapX(this.x);
+        //this.y = wrapY(this.y);
+       if (this.x < 0) this.x += w;
+else if (this.x > w) this.x -= w;
+
+if (this.y < 0) this.y += h;
+else if (this.y > h) this.y -= h;
+       // end of wrap fix
         if (this.invuln > 0) this.invuln--;
       }
       draw() {
