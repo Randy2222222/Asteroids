@@ -1,21 +1,5 @@
 window.onload = () => {
  (async function init() {
-// debug comsole
-  setTimeout(() => {
-    const vw = window.visualViewport?.width  || window.innerWidth;
-    const vh = window.visualViewport?.height || window.innerHeight;
-
-    const div = document.createElement("div");
-    div.style.position = "absolute";
-    div.style.top = "10px";
-    div.style.left = "10px";
-    div.style.color = "red";
-    div.style.fontSize = "20px";
-    div.style.zIndex = "99999";
-    div.textContent = `VW=${vw}  VH=${vh}`;
-
-    document.body.appendChild(div);
-}, 500);
    // -------------------------
    // Canvas + rendering setup
    // -------------------------
