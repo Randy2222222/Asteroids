@@ -1,41 +1,19 @@
 window.onload = () => {
  (async function init() {
    // -------------------------
-   // Canvas + rendering setup
+   // FIXED PIXEL HARD WIRED
    // -------------------------
 const canvas = document.getElementById("game");
- if (!canvas) {
-  console.error("Missing canvas #game");
-  return;
- }
 const ctx = canvas.getContext("2d");
 
-// These will be updated by resizeCanvas() properlyy
-     let w = 0;// REAL pixel game width
-     let h = 0;// Real pixel game height
+// ------------------------------
+// FIXED GAME WINDOW (permanent)
+// ------------------------------
+const w = 1133;   // your viewport width
+const h = 650;    // your viewport height
 
-  // NOW the world = the pixels
-function resizeCanvas() {
-  
-  const cssW = window.visualViewport ? window.visualViewport.width : window.innerWidth;
-  const cssH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-
-  canvas.style.width = cssW + "px";
-  canvas.style.height = cssH + "px";
-
-       canvas.width = cssW;
-       canvas.height = cssH;
-  
-  // IMPORTANT: physics & wrap use CSS pixel coordinates
-   w = cssW;
-   h = cssH;
-}
-  
-window.addEventListener("resize", resizeCanvas);
-if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
-   
-// Initial setup
-resizeCanvas();
+canvas.width  = w;   // real buffer width
+canvas.height = h;   // real buffer height
 
     // Avoid pinch-zoom / gestures on iOS
     document.addEventListener(
