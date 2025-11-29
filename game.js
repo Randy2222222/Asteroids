@@ -16,7 +16,7 @@ const ctx = canvas.getContext("2d");
 
   // NOW the world = the pixels
 function resizeCanvas() {
-  const dpr = window.devicePixelRatio || 1;
+  //const dpr = window.devicePixelRatio || 1;
 
   const cssW = window.visualViewport ? window.visualViewport.width : window.innerWidth;
   const cssH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
@@ -24,14 +24,9 @@ function resizeCanvas() {
   canvas.style.width = cssW + "px";
   canvas.style.height = cssH + "px";
 
-  // High-resolution drawing buffer
-     //canvas.width  = Math.floor(cssW * dpr);
-    // canvas.height = Math.floor(cssH * dpr);
        canvas.width = cssW;
        canvas.height = cssH;
-  // Align drawing coordinates to CSS pixels
-  //  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
+  
   // IMPORTANT: physics & wrap use CSS pixel coordinates
    w = cssW;
    h = cssH;
@@ -39,8 +34,7 @@ function resizeCanvas() {
   
 window.addEventListener("resize", resizeCanvas);
 if (window.visualViewport) window.visualViewport.addEventListener("resize", resizeCanvas);
-
-    
+   
 // Initial setup
 resizeCanvas();
 
